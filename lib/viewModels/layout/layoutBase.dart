@@ -2,6 +2,7 @@ import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/layout/columnLayout.dart';
 import 'package:call_poc_2/viewModels/layout/gridLayout.dart';
 import 'package:call_poc_2/viewModels/layout/listLayout.dart';
+import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
 
 abstract class LayoutBase extends BaseModel {
@@ -18,6 +19,8 @@ abstract class LayoutBase extends BaseModel {
         return GridLayout.fromJson(json);
       case "list":
         return ListLayout.fromJson(json);
+      case "popup":
+        return PopupLayout.fromJson(json);
       default:
         return ColumnLayout.fromJson(json);
     }

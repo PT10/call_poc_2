@@ -36,6 +36,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     BaseModel model = BaseModel.fromJson(patientHomeScreen);
+    model.data = {
+      "patient_id": "65c9f89d031272e866295a9a",
+      "latitude": "18.577954759165255",
+      "longitude": "73.76560389261459"
+    };
     return Scaffold(
         appBar: AppBar(
           title: const Text("Login"),

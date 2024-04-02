@@ -30,31 +30,35 @@ class GridLayout extends LayoutBase {
         title: json["title"],
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
-                json["initAction"] as Map<String, dynamic>)
+                json["initAction"] as List<Map<String, dynamic>>)
             : null);
   }
 
   @override
-  Widget render(BuildContext context) {
+  Widget render(BuildContext context, {Function? onAction}) {
     return ElementRenderer(
-        getCmp: (resp) => _getCmp(context, resp), initAction: initAction);
+      getCmp: (resp) => _getCmp(context, resp),
+      initAction: initAction,
+      data: data,
+    );
   }
 
   Widget _getCmp(BuildContext context, Response? resp) {
-    List<dynamic> data = [];
+    List<dynamic> myData = [];
     if (resp != null) {
       var respObj = json.decode(resp.body);
-      data = (respObj["data"] as List<dynamic>);
+      myData = (respObj["data"] as List<dynamic>);
     }
     return Card(
         child: GridView.builder(
       gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: numCols),
-      itemCount: data.length,
+      itemCount: myData.length,
       itemBuilder: (context, index) {
         BaseModel? childModel = itemRendererModel?.createItem();
         if (childModel != null) {
-          childModel.setData(data[index]);
+          childModel
+              .setData((myData[index] as Map<String, dynamic>)..addAll(data!));
           return Card(child: childModel.render(context));
         }
 

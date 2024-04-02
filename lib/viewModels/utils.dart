@@ -10,6 +10,10 @@ Map<String, dynamic> getPage(String id) {
       return doctorListVicinity;
     case 'doctorListItem':
       return doctorListItem;
+    case 'paymentPopup':
+      return paymentPopup;
+    case 'videoCallPopUp':
+      return videoCallPopUp;
     default:
       return {};
   }

@@ -31,12 +31,12 @@ class ListLayout extends LayoutBase {
         title: json["title"],
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
-                json["initAction"] as Map<String, dynamic>)
+                json["initAction"] as List<Map<String, dynamic>>)
             : null);
   }
 
   @override
-  Widget render(BuildContext context) {
+  Widget render(BuildContext context, {Function? onAction}) {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
@@ -45,11 +45,11 @@ class ListLayout extends LayoutBase {
   }
 
   Widget _getCmp(BuildContext context, Response? resp) {
-    List<dynamic> data = [];
+    List<dynamic> myData = [];
     if (resp != null) {
       var respObj = json.decode(resp.body);
       if (respObj["status"] == 1) {
-        data = (respObj["data"] as List<dynamic>);
+        myData = (respObj["data"] as List<dynamic>);
       } else {
         return Center(
           child: Text(respObj["message"]),
@@ -57,13 +57,15 @@ class ListLayout extends LayoutBase {
       }
     }
     return ListView.builder(
-      itemCount: data.isNotEmpty ? data.length : children?.length,
+      itemCount: myData.isNotEmpty ? myData.length : children?.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         if (itemRendererModel != null) {
           BaseModel? childModel = itemRendererModel?.createItem();
           if (childModel != null) {
-            childModel.data = data[index];
+            //childModel.data = myData[index];
+            childModel.setData(
+                (myData[index] as Map<String, dynamic>)..addAll(data!));
             return SizedBox(
                 height: 100, child: Card(child: childModel.render(context)));
           }

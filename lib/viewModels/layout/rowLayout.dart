@@ -24,14 +24,17 @@ class RowLayout extends LayoutBase {
         title: json["title"],
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
-                json["initAction"] as Map<String, dynamic>)
+                json["initAction"] as List<Map<String, dynamic>>)
             : null);
   }
 
   @override
-  Widget render(BuildContext context) {
+  Widget render(BuildContext context, {Function? onAction}) {
     return ElementRenderer(
-        getCmp: (resp) => _getCmp(context, resp), initAction: initAction);
+      getCmp: (resp) => _getCmp(context, resp),
+      initAction: initAction,
+      data: data,
+    );
   }
 
   Widget _getCmp(BuildContext context, Response? resp) {

@@ -7,7 +7,11 @@ var patientHomeScreen = {
       "subType": "iconButton",
       "iconUrl": "",
       "buttonText": "Connect with emergency specialist",
-      "action": {"type": "navigate", "pageId": "patientDashboard"}
+      "action": {
+        "type": "navigate",
+        "pageId": "patientDashboard",
+        "data": ["patient_id", "latitude", "longitude"]
+      }
     },
     {
       "type": "layout",
@@ -58,11 +62,16 @@ var patientDashboard = {
       "type": "layout",
       "subType": "grid",
       "numCols": 3,
-      "itemRenderer": {"pageId": "roundedIconWithText"},
-      "initAction": {
-        "api": "http://192.168.0.100:4009/symptom_controller/list2",
-        "params": {"emergency_type": "1", "accidental_type": "0"}
-      }
+      "itemRenderer": {
+        "pageId": "roundedIconWithText",
+        "data": ["patient_id", "latitude", "longitude"]
+      },
+      "initAction": [
+        {
+          "api": "http://192.168.0.101:4009/symptom_controller/list2",
+          "params": {"emergency_type": "1", "accidental_type": "0"}
+        }
+      ]
     },
     {
       "type": "field",
@@ -71,6 +80,9 @@ var patientDashboard = {
       "action": {
         "type": "navigate",
         "data": [
+          "patient_id",
+          "latitude",
+          "longitude",
           {"symptom": "1"},
           {"specialisation": "Hospitals with ICU & OT"}
         ],
@@ -84,6 +96,9 @@ var patientDashboard = {
       "action": {
         "type": "navigate",
         "data": [
+          "patient_id",
+          "latitude",
+          "longitude",
           {"symptom": "1"},
           {"specialisation": "Hospitals with ICU & OT"}
         ],
@@ -100,7 +115,7 @@ var roundedIconWithText = {
   "buttonTextFieldInData": "symptom_name",
   "action": {
     "type": "navigate",
-    "data": ["specialisation_id"],
+    "data": ["specialisation_id", "patient_id", "latitude", "longitude"],
     "pageId": "doctorListVicinity"
   }
 };
@@ -109,18 +124,20 @@ var doctorListVicinity = {
   "type": "layout",
   "subType": "list",
   "itemRenderer": {"pageId": "doctorListItem"},
-  "initAction": {
-    "api": "http://192.168.0.100:4009/order_controller/doctor_search",
-    "params": {
-      "specialisation_id": "__val__",
-      "latitude": "18.577954759165255",
-      "longitude": "73.76560389261459",
-      "patient_id": "65c9f89d031272e866295a9a",
-      "gender_id": "2",
-      "location_id": "1",
-      "location_text": "Mumbai"
+  "initAction": [
+    {
+      "api": "http://192.168.0.101:4009/order_controller/doctor_search",
+      "params": {
+        "specialisation_id": "__val__",
+        "latitude": "__val__",
+        "longitude": "__val__",
+        "patient_id": "__val__",
+        "gender_id": "2",
+        "location_id": "1",
+        "location_text": "Mumbai"
+      }
     }
-  }
+  ]
 };
 
 var doctorListItem = {
@@ -141,10 +158,10 @@ var doctorListItem = {
             "type": "popup",
             "pageId": "paymentPopup",
             "data": [
-              "doctor_id",
+              {"newKey": "doctor_id", "oldKey": "_id"},
               "patient_id",
               "specialisation_id",
-              "lattitude",
+              "latitude",
               "longitude"
             ]
           }
@@ -171,13 +188,22 @@ var paymentPopup = {
   "subType": "popup",
   "children": [
     {
-      "type": "field",
-      "subType": "label",
-      "initAction": {
-        "api": "symptom_controller/patient_call_details",
-        "params": {"patient_id": "__val__"}
-      },
-      "valueField": "message"
+      "type": "layout",
+      "subType": "column",
+      "children": [
+        {
+          "type": "field",
+          "subType": "label",
+          "initAction": [
+            {
+              "api":
+                  "http://192.168.0.101:4009/symptom_controller/patient_call_details",
+              "params": {"patient_id": "__val__"}
+            }
+          ],
+          "valueField": "message"
+        }
+      ]
     }
   ],
   "actions": [
@@ -186,7 +212,7 @@ var paymentPopup = {
       "subType": "textButton",
       "buttonText": "Agree",
       "action": {
-        "type": "navigate",
+        "type": "popup",
         "data": [
           "amount",
           "doctor_id",
@@ -195,9 +221,10 @@ var paymentPopup = {
           "latitude",
           "longitude"
         ],
-        "pageId": "razorPay"
+        "pageId": "videoCallPopUp"
       }
     },
+    {"type": "field", "subType": "textButton", "buttonText": "Disagree"},
   ]
 };
 
@@ -228,9 +255,9 @@ var videoCallPopUp = {
   "children": [
     {"type": "field", "subType": "label", "label": "Calling.. please wait.."}
   ],
-  "afterInitAction": [
+  "initAction": [
     {
-      "api": "order_controller/create",
+      "api": "http://192.168.0.101:4009/order_controller/create",
       "id": "create",
       "params": {
         "patient_id": "__val__",
@@ -241,18 +268,18 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "notification_controller/video_call",
+      "api": "http://192.168.0.101:4009/notification_controller/video_call",
       "params": {
-        "sender_id": "__val__",
-        "receiver_id": "__val__",
-        "channel_name": "__val__",
+        "sender_id": {"oldKey": "patient_id", "value": "__val__"},
+        "receiver_id": {"oldKey": "doctor_id", "value": "__val__"},
+        "channel_name": "__randStr__",
         "call_type": "0",
-        "order_id": ""
+        "order_id": {"oldKey": "_id", "value": "__val__"}
       }
     },
     {
-      "api": "order_controller/call_status_notify",
-      "params": ["order_id"],
+      "api": "http://192.168.0.101:4009/order_controller/call_status_notify",
+      "params": {"order_id": "__val__"},
       "mode": "poll",
       "interval": 500,
       "timeout": 30000,

@@ -20,8 +20,15 @@ abstract class BaseModel {
   }
 
   void setData(Map<String, dynamic>? d) {
-    data = d;
+    if (d == null) {
+      return;
+    }
+    if (data == null) {
+      data = d;
+    } else {
+      data!.addAll(d);
+    }
   }
 
-  Widget render(BuildContext context);
+  Widget render(BuildContext context, {Function? onAction});
 }

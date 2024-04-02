@@ -21,14 +21,25 @@ class ActionModel {
   }
 
   void setData(Map<String, dynamic>? d) {
-    parentData = d;
+    if (d == null) {
+      return;
+    }
+    if (parentData != null) {
+      parentData!.addAll(d);
+    } else {
+      parentData = d;
+    }
   }
 
   void perform(BuildContext context) {
     LayoutBase model = LayoutBase.fromJson(getPage(pageId!));
     model.data = {};
     data?.forEach((element) {
-      model.data![element] = parentData?[element];
+      if (element is Map<String, dynamic>) {
+        model.data![element["newKey"]] = parentData?[element["oldKey"]];
+      } else {
+        model.data![element] = parentData?[element];
+      }
     });
 
     switch (type) {
@@ -45,7 +56,7 @@ class ActionModel {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog();
+            return model.render(context);
           },
         );
       default:

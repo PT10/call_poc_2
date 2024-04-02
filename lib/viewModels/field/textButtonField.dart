@@ -5,10 +5,10 @@ import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-class IconButtonField extends FieldBase {
+class TextButtonField extends FieldBase {
   String? iconUrl, buttonText, buttonTextFieldInData;
 
-  IconButtonField(
+  TextButtonField(
     super.type,
     super.subType, {
     this.iconUrl,
@@ -18,8 +18,8 @@ class IconButtonField extends FieldBase {
     super.initAction,
   });
 
-  factory IconButtonField.fromJson(Map<String, dynamic> json) {
-    return IconButtonField(json["type"], json["subType"],
+  factory TextButtonField.fromJson(Map<String, dynamic> json) {
+    return TextButtonField(json["type"], json["subType"],
         iconUrl: json["iconUrl"],
         buttonText: json["buttonText"],
         buttonTextFieldInData: json["buttonTextFieldInData"],
@@ -49,7 +49,7 @@ class IconButtonField extends FieldBase {
   }
 
   Widget _getCmp(BuildContext context, Response? resp, {Function? onAction}) {
-    return TextButton.icon(
+    return TextButton(
       onPressed: () {
         if (onAction != null) {
           onAction();
@@ -58,8 +58,7 @@ class IconButtonField extends FieldBase {
           action!.perform(context);
         }
       },
-      icon: const Icon(Icons.plus_one),
-      label: Text(buttonText ??
+      child: Text(buttonText ??
           (data != null && data!.containsKey(buttonTextFieldInData)
               ? data![buttonTextFieldInData]
               : '')),
