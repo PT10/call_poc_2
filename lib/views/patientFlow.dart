@@ -68,7 +68,7 @@ var patientDashboard = {
       },
       "initAction": [
         {
-          "api": "http://192.168.0.101:4009/symptom_controller/list2",
+          "api": "http://192.168.0.100:4009/symptom_controller/list2",
           "params": {"emergency_type": "1", "accidental_type": "0"}
         }
       ]
@@ -126,7 +126,7 @@ var doctorListVicinity = {
   "itemRenderer": {"pageId": "doctorListItem"},
   "initAction": [
     {
-      "api": "http://192.168.0.101:4009/order_controller/doctor_search",
+      "api": "http://192.168.0.100:4009/order_controller/doctor_search",
       "params": {
         "specialisation_id": "__val__",
         "latitude": "__val__",
@@ -197,7 +197,7 @@ var paymentPopup = {
           "initAction": [
             {
               "api":
-                  "http://192.168.0.101:4009/symptom_controller/patient_call_details",
+                  "http://192.168.0.100:4009/symptom_controller/patient_call_details",
               "params": {"patient_id": "__val__"}
             }
           ],
@@ -257,7 +257,7 @@ var videoCallPopUp = {
   ],
   "initAction": [
     {
-      "api": "http://192.168.0.101:4009/order_controller/create",
+      "api": "http://192.168.0.100:4009/order_controller/create",
       "id": "create",
       "params": {
         "patient_id": "__val__",
@@ -268,7 +268,7 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.101:4009/notification_controller/video_call",
+      "api": "http://192.168.0.100:4009/notification_controller/video_call",
       "params": {
         "sender_id": {"oldKey": "patient_id", "value": "__val__"},
         "receiver_id": {"oldKey": "doctor_id", "value": "__val__"},
@@ -278,30 +278,30 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.101:4009/order_controller/call_status_notify",
+      "api": "http://192.168.0.100:4009/order_controller/call_status_notify",
       "params": {"order_id": "__val__"},
       "mode": "poll",
       "interval": 500,
       "timeout": 30000,
-      "breakCondition": {"field": "data", "op": "eq", "value": "1"},
+      "breakCondition": {"field": "data", "op": "eq", "value": 1},
       "action": {
         "type": "navigate",
-        "data": {
-          "channel_name": "__val__",
-          "isPromotionalCall": "__val__",
-          "promotionalCallMsg": "__val__",
-          "order_id_sender": "__val__",
-          "doctor_id_fcm": "__val__",
-          "calling_from": "__val__",
-          "doctor_name_fcm": "__val__",
-          "doctor_specialisation": "__val__",
-          "patient_name": "__val__",
-          "doctor_distance": "__val__",
-          "is_server_call": "__val__",
-          "isOtherEmergency": "__val__",
-          "specialization_id": "__val__",
-          "amount": "__val__"
-        },
+        "data": [
+          "channel_name",
+          "isPromotionalCall",
+          "promotionalCallMsg",
+          "order_id_sender",
+          "doctor_id_fcm",
+          "calling_from",
+          "doctor_name_fcm",
+          "doctor_specialisation",
+          "patient_name",
+          "doctor_distance",
+          "is_server_call",
+          "isOtherEmergency",
+          "specialization_id",
+          "amount"
+        ],
         "pageId": "videoCall"
       }
     }

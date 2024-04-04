@@ -1,6 +1,7 @@
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
+import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,12 @@ class PopupLayout extends LayoutBase {
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
       data: data,
+      onPollFinished: (ActionModel? action) {
+        Navigator.pop(context);
+        if (action != null) {
+          action.perform(context);
+        }
+      },
     );
   }
 

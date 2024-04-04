@@ -14,6 +14,8 @@ Map<String, dynamic> getPage(String id) {
       return paymentPopup;
     case 'videoCallPopUp':
       return videoCallPopUp;
+    case 'videoCall':
+      return videoCall;
     default:
       return {};
   }

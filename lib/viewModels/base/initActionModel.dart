@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/pages/httpUtils.dart';
+import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -27,8 +28,13 @@ class InitActionModel {
 
     json.forEach(
       (element) {
-        tempActions.add(InitAction(element["api"],
-            Map<String, dynamic>.from(element["params"] ?? {})));
+        tempActions.add(InitAction(
+            element["api"], Map<String, dynamic>.from(element["params"] ?? {}),
+            mode: element["mode"],
+            breakCondition: element["breakCondition"],
+            action: element.containsKey("action")
+                ? ActionModel.fromJson(element["action"], null)
+                : null));
       },
     );
 
@@ -36,7 +42,8 @@ class InitActionModel {
   }
 
   Future<http.Response> perform(
-      BuildContext context, Map<String, dynamic>? data) async {
+      BuildContext context, Map<String, dynamic>? data,
+      {bool pollMode = false}) async {
     if (initActions.length == 1) {
       if (data != null) {
         _updateActionParams(0, data);
@@ -46,38 +53,29 @@ class InitActionModel {
 
     data ??= {};
 
-    int i;
-    for (i = 0; i < initActions.length - 1; i++) {
-      initActions[i].params.keys.forEach((key) {
-        if (data != null) {
-          _updateActionParams(i, data);
-        }
-        // if (initActions[i].params[key] == "__randStr__") {
-        //   initActions[i].params[key] = Uuid().v4().toString();
-        //   return;
-        // }
-        // if (initActions[i].params[key] is Map<String, dynamic>) {
-        //   if (data!.containsKey(initActions[i].params[key]["oldKey"])) {
-        //     initActions[i].params[key] =
-        //         data[initActions[i].params[key]["oldKey"]];
-        //   }
-        // } else {
-        //   if (data!.containsKey(key)) {
-        //     initActions[0].params[key] = data[key];
-        //   }
-        // }
-      });
+    int i = initActions.length - 1;
+    if (!pollMode) {
+      for (i = 0; i < initActions.length - 1; i++) {
+        initActions[i].params.keys.forEach((key) {
+          if (data != null) {
+            _updateActionParams(i, data);
+          }
+        });
 
-      http.Response resp =
-          await HttpUtils().post(initActions[i].api, initActions[i].params);
-      var respObj = json.decode(resp.body);
-      data.addAll(respObj["data"]);
+        http.Response resp =
+            await HttpUtils().post(initActions[i].api, initActions[i].params);
+        var respObj = json.decode(resp.body);
+        data.addAll(respObj["data"]);
+      }
     }
 
     initActions[i].params.keys.forEach((key) {
-      if (data!.containsKey(key)) {
-        initActions[i].params[key] = data[key];
+      if (data != null) {
+        _updateActionParams(i, data);
       }
+      // if (data!.containsKey(key)) {
+      //   initActions[i].params[key] = data[key];
+      // }
     });
 
     return HttpUtils().post(initActions[i].api, initActions[i].params);
@@ -118,6 +116,10 @@ class InitActionModel {
 class InitAction {
   final String api;
   final Map<String, dynamic> params;
+  final String? mode;
+  final Map<String, dynamic>? breakCondition;
+  final ActionModel? action;
 
-  InitAction(this.api, this.params);
+  InitAction(this.api, this.params,
+      {this.mode, this.action, this.breakCondition});
 }
