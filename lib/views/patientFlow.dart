@@ -288,12 +288,12 @@ var videoCallPopUp = {
         "type": "navigate",
         "data": [
           "channel_name",
-          "isPromotionalCall",
+          "isPromotional",
           "promotionalCallMsg",
-          "order_id_sender",
-          "doctor_id_fcm",
+          "order_id",
+          "doctor_id",
           "calling_from",
-          "doctor_name_fcm",
+          "doctor_name",
           "doctor_specialisation",
           "patient_name",
           "doctor_distance",
@@ -315,7 +315,7 @@ var videoCall = {
     {
       // TODO
       "type": "field",
-      "subType": "callPage",
+      "subType": "agoraCallPage",
     },
     {
       "type": "field",

@@ -20,6 +20,7 @@ class LabelField extends FieldBase {
     super.initAction,
   });
 
+  @override
   factory LabelField.fromJson(Map<String, dynamic> json) {
     return LabelField(json["type"], json["subType"],
         label: json["label"],
@@ -42,9 +43,9 @@ class LabelField extends FieldBase {
     );
   }
 
-  Widget _getCmp(BuildContext context, Response? resp) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
     if (resp != null) {
-      data?.addAll(json.decode(resp.body));
+      data?.addAll(resp);
     }
     return Wrap(
       children: skipNulls([

@@ -44,10 +44,10 @@ class ListLayout extends LayoutBase {
     );
   }
 
-  Widget _getCmp(BuildContext context, Response? resp) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? respObj) {
     List<dynamic> myData = [];
-    if (resp != null) {
-      var respObj = json.decode(resp.body);
+    if (respObj != null) {
+      // var respObj = json.decode(resp.body);
       if (respObj["status"] == 1) {
         myData = (respObj["data"] as List<dynamic>);
       } else {

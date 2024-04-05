@@ -73,9 +73,6 @@ class InitActionModel {
       if (data != null) {
         _updateActionParams(i, data);
       }
-      // if (data!.containsKey(key)) {
-      //   initActions[i].params[key] = data[key];
-      // }
     });
 
     return HttpUtils().post(initActions[i].api, initActions[i].params);

@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 
-class RowLayout extends LayoutBase {
+class StackLayout extends LayoutBase {
   final List<BaseModel>? children;
 
-  RowLayout(super.type, super.subType, this.children,
+  StackLayout(super.type, super.subType, this.children,
       {super.title, super.initAction});
 
-  factory RowLayout.fromJson(Map<String, dynamic> json) {
-    return RowLayout(
+  factory StackLayout.fromJson(Map<String, dynamic> json) {
+    return StackLayout(
         json["type"],
         json["subType"],
-        json.containsKey("children")
+        json.containsKey('children')
             ? (json["children"] as List<dynamic>)
                 .map((p) => BaseModel.fromJson(p as Map<String, dynamic>))
                 .toList()
@@ -41,12 +41,12 @@ class RowLayout extends LayoutBase {
     if (children == null) {
       return Container();
     }
-    return Card(
-        child: Row(
-            children: children!.map((e) {
+    return Stack(
+        children: children!.map((e) {
       e.setData(data); // Pass data to each child
       return Expanded(
-          child: Column(children: [Expanded(child: e.render(context))]));
-    }).toList()));
+          child:
+              Card(child: Row(children: [Expanded(child: e.render(context))])));
+    }).toList());
   }
 }

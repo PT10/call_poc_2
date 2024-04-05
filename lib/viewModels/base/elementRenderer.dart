@@ -7,13 +7,13 @@ import 'package:http/http.dart';
 class ElementRenderer extends StatefulWidget {
   // final Widget myCmp;
   final InitActionModel? initAction;
-  final Function(Response?) getCmp;
-  final Map<String, dynamic>? data;
+  final Function(Map<String, dynamic>?) getCmp;
+  final Map<String, dynamic> data;
   final Function? onPollFinished;
   const ElementRenderer(
       {required this.getCmp,
       this.initAction,
-      this.data,
+      required this.data,
       this.onPollFinished,
       super.key});
 
@@ -23,7 +23,7 @@ class ElementRenderer extends StatefulWidget {
 
 class _ElementRendererState extends State<ElementRenderer> {
   bool loadingCompleted = false;
-  Response? data;
+  //Map<String, dynamic> data = {};
   String? errorMsg;
   @override
   void initState() {
@@ -36,11 +36,13 @@ class _ElementRendererState extends State<ElementRenderer> {
   }
 
   _performInitAction({bool pollModel = false}) {
+    // Init action can also update the widget.data
     widget.initAction!
         .perform(context, widget.data, pollMode: pollModel)
         .then((value) {
       setState(() {
         loadingCompleted = true;
+        widget.data.addAll(json.decode(value.body));
       });
 
       InitAction lastAction = widget.initAction!.initActions.last;
@@ -56,10 +58,10 @@ class _ElementRendererState extends State<ElementRenderer> {
           widget.onPollFinished!(lastAction.action);
         }
       }
-      setState(() {
-        loadingCompleted = true;
-        data = value;
-      });
+      // setState(() {
+      //   loadingCompleted = true;
+      //   data.addAll(json.decode(value.body));
+      // });
     }).onError((error, stackTrace) {
       errorMsg = "Error";
     });
@@ -68,7 +70,7 @@ class _ElementRendererState extends State<ElementRenderer> {
   @override
   Widget build(BuildContext context) {
     if (loadingCompleted) {
-      return widget.getCmp(data);
+      return widget.getCmp(widget.data);
     } else if (errorMsg != null) {
       return const Center(
         child: Text("error"),

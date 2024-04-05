@@ -43,10 +43,10 @@ class GridLayout extends LayoutBase {
     );
   }
 
-  Widget _getCmp(BuildContext context, Response? resp) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? respObj) {
     List<dynamic> myData = [];
-    if (resp != null) {
-      var respObj = json.decode(resp.body);
+    if (respObj != null) {
+      //var respObj = json.decode(resp.body);
       myData = (respObj["data"] as List<dynamic>);
     }
     return Card(

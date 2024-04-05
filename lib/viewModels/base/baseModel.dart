@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 abstract class BaseModel {
   final String type, subType;
   final InitActionModel? initAction;
-  Map<String, dynamic>? data;
+  Map<String, dynamic> data = {};
 
-  BaseModel(this.type, this.subType, {this.data, this.initAction});
+  BaseModel(this.type, this.subType, {this.initAction});
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
     if (json["type"] == "layout") {
@@ -23,11 +23,8 @@ abstract class BaseModel {
     if (d == null) {
       return;
     }
-    if (data == null) {
-      data = d;
-    } else {
-      data!.addAll(d);
-    }
+
+    data.addAll(d);
   }
 
   Widget render(BuildContext context, {Function? onAction});

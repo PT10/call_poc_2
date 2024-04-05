@@ -45,13 +45,14 @@ class PopupLayout extends LayoutBase {
       onPollFinished: (ActionModel? action) {
         Navigator.pop(context);
         if (action != null) {
+          action.setData(data);
           action.perform(context);
         }
       },
     );
   }
 
-  Widget _getCmp(BuildContext context, Response? resp) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
     if (children == null) {
       return Container();
     }

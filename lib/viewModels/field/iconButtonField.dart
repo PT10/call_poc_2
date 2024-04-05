@@ -18,6 +18,7 @@ class IconButtonField extends FieldBase {
     super.initAction,
   });
 
+  @override
   factory IconButtonField.fromJson(Map<String, dynamic> json) {
     return IconButtonField(json["type"], json["subType"],
         iconUrl: json["iconUrl"],
@@ -48,13 +49,15 @@ class IconButtonField extends FieldBase {
         d); // Set same data for action too so that it can be passsed to next page when the action is performed.
   }
 
-  Widget _getCmp(BuildContext context, Response? resp, {Function? onAction}) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp,
+      {Function? onAction}) {
     return TextButton.icon(
       onPressed: () {
         if (onAction != null) {
-          onAction();
+          onAction(); // Action performed on the parent component.. e.g. close popup window
         }
         if (action != null) {
+          action!.setData(resp);
           action!.perform(context);
         }
       },

@@ -37,7 +37,7 @@ class ColumnLayout extends LayoutBase {
     );
   }
 
-  Widget _getCmp(BuildContext context, Response? resp) {
+  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
     if (children == null) {
       return Container();
     }
