@@ -17,16 +17,6 @@ class PopUpRenderer extends ElementRenderer {
 
 class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     PopupLayout popupModel = widget.layoutModel as PopupLayout;
     if (popupModel.children == null) {

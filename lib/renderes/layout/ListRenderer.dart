@@ -19,16 +19,6 @@ class ListRenderer extends ElementRenderer {
 
 class _ListRendererState extends ElementRendererState<ListRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
     List<dynamic> myData = [];

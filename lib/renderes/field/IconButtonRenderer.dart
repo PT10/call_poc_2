@@ -18,16 +18,6 @@ class IconButtonRenderer extends ElementRenderer {
 class _IconButtonRendererState
     extends ElementRendererState<IconButtonRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     IconButtonField fieldModel = widget.layoutModel as IconButtonField;

@@ -18,16 +18,6 @@ class LabelRenderer extends ElementRenderer {
 
 class _LabelRendererState extends ElementRendererState<LabelRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     LabelField fieldModel = widget.layoutModel as LabelField;

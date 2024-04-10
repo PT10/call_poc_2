@@ -18,16 +18,6 @@ class AgoraCallPage extends ElementRenderer {
 
 class _AgoraCallPageState extends ElementRendererState<AgoraCallPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel d = Provider.of<DataModel>(context, listen: false);
     return AgoraCall(

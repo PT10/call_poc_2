@@ -16,16 +16,6 @@ class StackRenderer extends ElementRenderer {
 
 class _StackRendererState extends ElementRendererState<StackRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     StackLayout stackLayout = widget.layoutModel as StackLayout;
     if (stackLayout.children == null) {

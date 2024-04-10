@@ -19,16 +19,6 @@ class GridRenderer extends ElementRenderer {
 
 class _GridRendererState extends ElementRendererState<GridRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
     GridLayout grid = widget.layoutModel as GridLayout;

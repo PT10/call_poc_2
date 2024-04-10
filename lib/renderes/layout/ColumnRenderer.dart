@@ -16,16 +16,6 @@ class ColumnRenderer extends ElementRenderer {
 
 class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     return Column(
         children: (widget.layoutModel as ColumnLayout).children!.map((e) {

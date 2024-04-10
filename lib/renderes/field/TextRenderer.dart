@@ -17,16 +17,6 @@ class TextRenderer extends ElementRenderer {
 
 class _TextRendererState extends ElementRendererState<TextRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     TextButtonField fieldModel = widget.layoutModel as TextButtonField;

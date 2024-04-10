@@ -16,16 +16,6 @@ class RowRenderer extends ElementRenderer {
 
 class _RowRendererState extends ElementRendererState<RowRenderer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
-
-  @override
   Widget getWidget() {
     RowLayout columnLayout = widget.layoutModel as RowLayout;
     if (columnLayout.children == null) {
