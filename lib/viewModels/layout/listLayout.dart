@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
-import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/base/iterativeItemModel.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
@@ -35,60 +35,5 @@ class ListLayout extends LayoutBase {
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null);
-  }
-
-  @override
-  Widget render(BuildContext context, {Function? onAction}) {
-    return ElementRenderer(
-      getCmp: (resp) => _getCmp(context, resp),
-      initAction: initAction,
-      //data: data,
-    );
-  }
-
-  Widget _getCmp(BuildContext context, Map<String, dynamic>? respObj) {
-    List<dynamic> myData = [];
-    if (respObj != null) {
-      // var respObj = json.decode(resp.body);
-      if (respObj["status"] == 1) {
-        myData = (respObj["data"] as List<dynamic>);
-      } else {
-        return Center(
-          child: Text(respObj["message"]),
-        );
-      }
-    }
-    return ListView.builder(
-      itemCount: myData.isNotEmpty ? myData.length : children?.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        if (itemRendererModel != null) {
-          DataModel oldModel = Provider.of<DataModel>(context, listen: false);
-          DataModel newModel = DataModel(oldModel.data);
-          newModel.setData(oldModel.data["data"][index]);
-
-          return ChangeNotifierProvider<DataModel>.value(
-              value: newModel,
-              builder: (ctx, w) => SizedBox(
-                  height: 100,
-                  child: Card(
-                      child: itemRendererModel?.createItem().render(ctx))));
-
-          // BaseModel? childModel = itemRendererModel?.createItem();
-          // if (childModel != null) {
-          //   return SizedBox(
-          //       height: 100, child: Card(child: childModel.render(context)));
-          // }
-
-          // return Container();
-        } else if (children != null) {
-          return children![index].render(context);
-        } else {
-          return const Center(
-            child: Text("No item found"),
-          );
-        }
-      },
-    );
   }
 }

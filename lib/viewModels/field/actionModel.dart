@@ -1,3 +1,5 @@
+import 'package:call_poc_2/renderes/RendererFactory.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
@@ -56,7 +58,11 @@ class ActionModel {
               ),
               body: ChangeNotifierProvider<DataModel>(
                   create: (_) => DataModel(myData),
-                  builder: (ctx, child) => model.render(ctx))),
+                  builder: (ctx, child) => RendererFactory.getWidget(
+                        model.subType,
+                        model,
+                        context: context,
+                      ))),
         ));
         break;
       case "popup":
@@ -65,7 +71,11 @@ class ActionModel {
           builder: (context) {
             return ChangeNotifierProvider<DataModel>(
                 create: (_) => DataModel(myData),
-                builder: (ctx, child) => model.render(ctx));
+                builder: (ctx, child) => RendererFactory.getWidget(
+                      model.subType,
+                      model,
+                      context: ctx,
+                    ));
           },
         );
       default:

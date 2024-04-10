@@ -2,7 +2,7 @@ import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -33,45 +33,5 @@ class IconButtonField extends FieldBase {
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null);
-  }
-
-  @override
-  Widget render(BuildContext context, {Function? onAction}) {
-    return ElementRenderer(
-      getCmp: (resp) => _getCmp(context, resp, onAction: onAction),
-      initAction: initAction,
-      // data: data,
-    );
-  }
-
-  // @override
-  // void setData(Map<String, dynamic>? d, BuildContext context) {
-  //   super.setData(d);
-  //   action?.setData(
-  //       d, context); // Set same data for action too so that it can be passsed to next page when the action is performed.
-  // }
-
-  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp,
-      {Function? onAction}) {
-    DataModel model = Provider.of<DataModel>(context, listen: false);
-    return TextButton.icon(
-      onPressed: () {
-        if (onAction != null) {
-          onAction(); // Action performed on the parent component.. e.g. close popup window
-        }
-        if (action != null) {
-          //action!.setData(resp, context);
-          // action!.perform(context);
-          // DataModel d = Provider.of<DataModel>(context, listen: false);
-          // d.setData(resp ?? {});
-          action!.perform(context);
-        }
-      },
-      icon: const Icon(Icons.plus_one),
-      label: Text(buttonText ??
-          (model.data!.containsKey(buttonTextFieldInData)
-              ? model.data![buttonTextFieldInData]
-              : '')),
-    );
   }
 }

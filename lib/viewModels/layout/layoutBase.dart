@@ -4,6 +4,7 @@ import 'package:call_poc_2/viewModels/layout/gridLayout.dart';
 import 'package:call_poc_2/viewModels/layout/listLayout.dart';
 import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
+import 'package:call_poc_2/viewModels/layout/stackLayout.dart';
 
 abstract class LayoutBase extends BaseModel {
   String? title;
@@ -19,6 +20,8 @@ abstract class LayoutBase extends BaseModel {
         return GridLayout.fromJson(json);
       case "list":
         return ListLayout.fromJson(json);
+      case "stack":
+        return StackLayout.fromJson(json);
       case "popup":
         return PopupLayout.fromJson(json);
       default:

@@ -32,5 +32,9 @@ abstract class BaseModel {
     //data.addAll(d);
   }
 
-  Widget render(BuildContext context, {Function? onAction});
+  Widget render(BuildContext context, {Function? onAction}) {
+    return Center(
+      child: Text("This should not be shown"),
+    );
+  }
 }

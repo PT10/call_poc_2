@@ -68,7 +68,7 @@ var patientDashboard = {
       },
       "initAction": [
         {
-          "api": "http://192.168.0.100:4009/symptom_controller/list2",
+          "api": "http://192.168.0.101:4009/symptom_controller/list2",
           "params": {"emergency_type": "1", "accidental_type": "0"}
         }
       ]
@@ -126,7 +126,7 @@ var doctorListVicinity = {
   "itemRenderer": {"pageId": "doctorListItem"},
   "initAction": [
     {
-      "api": "http://192.168.0.100:4009/order_controller/doctor_search",
+      "api": "http://192.168.0.101:4009/order_controller/doctor_search",
       "params": {
         "specialisation_id": "__val__",
         "latitude": "__val__",
@@ -197,7 +197,7 @@ var paymentPopup = {
           "initAction": [
             {
               "api":
-                  "http://192.168.0.100:4009/symptom_controller/patient_call_details",
+                  "http://192.168.0.101:4009/symptom_controller/patient_call_details",
               "params": {"patient_id": "__val__"}
             }
           ],
@@ -257,7 +257,7 @@ var videoCallPopUp = {
   ],
   "initAction": [
     {
-      "api": "http://192.168.0.100:4009/order_controller/create",
+      "api": "http://192.168.0.101:4009/order_controller/create",
       "id": "create",
       "params": {
         "patient_id": "__val__",
@@ -268,7 +268,7 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.100:4009/notification_controller/video_call",
+      "api": "http://192.168.0.101:4009/notification_controller/video_call",
       "params": {
         "sender_id": {"oldKey": "patient_id", "value": "__val__"},
         "receiver_id": {"oldKey": "doctor_id", "value": "__val__"},
@@ -278,7 +278,7 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.100:4009/order_controller/call_status_notify",
+      "api": "http://192.168.0.101:4009/order_controller/call_status_notify",
       "params": {"order_id": "__val__"},
       "mode": "poll",
       "interval": 500,

@@ -1,5 +1,5 @@
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
-import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
@@ -34,42 +34,5 @@ class PopupLayout extends LayoutBase {
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null);
-  }
-
-  @override
-  Widget render(BuildContext context, {Function? onAction}) {
-    return ElementRenderer(
-      getCmp: (resp) => _getCmp(context, resp),
-      initAction: initAction,
-      //data: data,
-      onPollFinished: (ActionModel? action) {
-        Navigator.pop(context);
-        if (action != null) {
-          //action.setData(data, context);
-          action.perform(context);
-        }
-      },
-    );
-  }
-
-  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
-    if (children == null) {
-      return Container();
-    }
-    return AlertDialog(
-      content: Column(
-          children: children!.map((e) {
-        //e.setData(data); // Pass data to each child
-        return Expanded(
-            child: Card(
-                child: Row(children: [Expanded(child: e.render(context))])));
-      }).toList()),
-      actions: actions?.map((e) {
-        //e.setData(data);
-        return e.render(context, onAction: () {
-          Navigator.pop(context);
-        });
-      }).toList(),
-    );
   }
 }

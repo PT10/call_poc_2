@@ -4,7 +4,7 @@ import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -36,14 +36,15 @@ class LabelField extends FieldBase {
             : null);
   }
 
-  @override
-  Widget render(BuildContext context, {Function? onAction}) {
-    return ElementRenderer(
-      getCmp: (resp) => _getCmp(context, resp),
-      initAction: initAction,
-      // data: data,
-    );
-  }
+  // @override
+  // Widget render(BuildContext context, {Function? onAction}) {
+  //   return ElementRenderer(
+  //     'label', this,
+  //     getCmp: (resp) => _getCmp(context, resp),
+  //     initAction: initAction,
+  //     // data: data,
+  //   );
+  // }
 
   Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
     // if (resp != null) {

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:call_poc_2/renderes/RendererFactory.dart';
+import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/pages/httpUtils.dart';
 import 'package:call_poc_2/pages/search.dart';
@@ -53,10 +55,13 @@ class _LoginPageState extends State<LoginPage> {
     return MultiProvider(
         providers: [ChangeNotifierProvider<DataModel>.value(value: d)],
         builder: (context, child) => Scaffold(
-              appBar: AppBar(
-                title: const Text("Login"),
-              ),
-              body: model.render(context),
+            appBar: AppBar(
+              title: const Text("Login"),
+            ),
+            body: RendererFactory.getWidget(model.subType, model,
+                context: context,
+                onAction:
+                    () {}) //ElementRenderer(model.subType, model, getCmp: (_) {}),
             ));
 
     // return ChangeNotifierProvider<DataModel>(
