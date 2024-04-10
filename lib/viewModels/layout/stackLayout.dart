@@ -33,7 +33,7 @@ class StackLayout extends LayoutBase {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      // data: data,
     );
   }
 
@@ -43,7 +43,7 @@ class StackLayout extends LayoutBase {
     }
     return Stack(
         children: children!.map((e) {
-      e.setData(data); // Pass data to each child
+      // e.setData(data); // Pass data to each child
       return Expanded(
           child:
               Card(child: Row(children: [Expanded(child: e.render(context))])));

@@ -33,7 +33,7 @@ class RowLayout extends LayoutBase {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      //data: data,
     );
   }
 
@@ -44,7 +44,7 @@ class RowLayout extends LayoutBase {
     return Card(
         child: Row(
             children: children!.map((e) {
-      e.setData(data); // Pass data to each child
+      //e.setData(data); // Pass data to each child
       return Expanded(
           child: Column(children: [Expanded(child: e.render(context))]));
     }).toList()));

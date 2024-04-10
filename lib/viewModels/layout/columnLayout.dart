@@ -1,10 +1,12 @@
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class ColumnLayout extends LayoutBase {
   final List<BaseModel>? children;
@@ -30,10 +32,11 @@ class ColumnLayout extends LayoutBase {
 
   @override
   Widget render(BuildContext context, {Function? onAction}) {
+    //DataModel d = Provider.of<DataModel>(context, listen: false);
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      //data: data,
     );
   }
 
@@ -43,7 +46,7 @@ class ColumnLayout extends LayoutBase {
     }
     return Column(
         children: children!.map((e) {
-      e.setData(data); // Pass data to each child
+      //e.setData(data); // Pass data to each child
       return Expanded(
           child:
               Card(child: Row(children: [Expanded(child: e.render(context))])));

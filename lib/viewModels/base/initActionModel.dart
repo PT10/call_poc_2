@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/pages/httpUtils.dart';
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class InitActionModel {
@@ -41,38 +43,41 @@ class InitActionModel {
     return InitActionModel(tempActions);
   }
 
-  Future<http.Response> perform(
-      BuildContext context, Map<String, dynamic>? data,
+  Future<http.Response> perform(BuildContext context,
       {bool pollMode = false}) async {
+    DataModel componentData = Provider.of<DataModel>(context, listen: false);
     if (initActions.length == 1) {
-      if (data != null) {
-        _updateActionParams(0, data);
+      if (componentData != null) {
+        _updateActionParams(0, componentData.data);
       }
       return HttpUtils().post(initActions[0].api, initActions[0].params);
     }
 
-    data ??= {};
+    //data ??= {};
 
     int i = initActions.length - 1;
     if (!pollMode) {
       for (i = 0; i < initActions.length - 1; i++) {
         initActions[i].params.keys.forEach((key) {
-          if (data != null) {
-            _updateActionParams(i, data);
-          }
+          //if (data != null) {
+          _updateActionParams(i, componentData.data);
+          //}
         });
 
         http.Response resp =
             await HttpUtils().post(initActions[i].api, initActions[i].params);
         var respObj = json.decode(resp.body);
-        data.addAll(respObj["data"]);
+        componentData.setData(respObj["data"]);
       }
     }
 
     initActions[i].params.keys.forEach((key) {
-      if (data != null) {
-        _updateActionParams(i, data);
-      }
+      // if (data != null) {
+      _updateActionParams(i, componentData.data);
+      //}
+      // if (data!.containsKey(key)) {
+      //   initActions[i].params[key] = data[key];
+      // }
     });
 
     return HttpUtils().post(initActions[i].api, initActions[i].params);

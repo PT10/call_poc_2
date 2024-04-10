@@ -1,19 +1,22 @@
 import 'dart:convert';
 
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class ElementRenderer extends StatefulWidget {
   // final Widget myCmp;
   final InitActionModel? initAction;
   final Function(Map<String, dynamic>?) getCmp;
-  final Map<String, dynamic> data;
+  //final Map<String, dynamic> data;
   final Function? onPollFinished;
   const ElementRenderer(
       {required this.getCmp,
       this.initAction,
-      required this.data,
+      //required this.data,
       this.onPollFinished,
       super.key});
 
@@ -37,12 +40,12 @@ class _ElementRendererState extends State<ElementRenderer> {
 
   _performInitAction({bool pollModel = false}) {
     // Init action can also update the widget.data
-    widget.initAction!
-        .perform(context, widget.data, pollMode: pollModel)
-        .then((value) {
+    DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    widget.initAction!.perform(context, pollMode: pollModel).then((value) {
       setState(() {
         loadingCompleted = true;
-        widget.data.addAll(json.decode(value.body));
+        componentData.setData(json.decode(value.body));
+        //widget.data.addAll(json.decode(value.body));
       });
 
       InitAction lastAction = widget.initAction!.initActions.last;
@@ -70,7 +73,8 @@ class _ElementRendererState extends State<ElementRenderer> {
   @override
   Widget build(BuildContext context) {
     if (loadingCompleted) {
-      return widget.getCmp(widget.data);
+      DataModel d = Provider.of<DataModel>(context, listen: false);
+      return widget.getCmp(d.data);
     } else if (errorMsg != null) {
       return const Center(
         child: Text("error"),

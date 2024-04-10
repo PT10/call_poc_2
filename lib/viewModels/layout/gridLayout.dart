@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/base/iterativeItemModel.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class GridLayout extends LayoutBase {
   final List<BaseModel>? children;
@@ -39,30 +41,38 @@ class GridLayout extends LayoutBase {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      //data: data,
     );
   }
 
   Widget _getCmp(BuildContext context, Map<String, dynamic>? respObj) {
-    List<dynamic> myData = [];
-    if (respObj != null) {
-      //var respObj = json.decode(resp.body);
-      myData = (respObj["data"] as List<dynamic>);
-    }
+    // List<dynamic> myData = [];
+    // if (respObj != null) {
+    //   //var respObj = json.decode(resp.body);
+    //   myData = (respObj["data"] as List<dynamic>);
+    // }
+    DataModel model = Provider.of<DataModel>(context, listen: false);
     return Card(
         child: GridView.builder(
       gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: numCols),
-      itemCount: myData.length,
+      itemCount: model.data.length,
       itemBuilder: (context, index) {
-        BaseModel? childModel = itemRendererModel?.createItem();
-        if (childModel != null) {
-          childModel
-              .setData((myData[index] as Map<String, dynamic>)..addAll(data!));
-          return Card(child: childModel.render(context));
-        }
+        DataModel oldModel = Provider.of<DataModel>(context, listen: false);
+        DataModel newModel = DataModel(oldModel.data);
+        newModel.setData(oldModel.data["data"][index]);
 
-        return Container();
+        return ChangeNotifierProvider<DataModel>.value(
+            value: newModel,
+            builder: (ctx, w) => itemRendererModel!.createItem().render(ctx));
+        // BaseModel? childModel = itemRendererModel?.createItem();
+        // if (childModel != null) {
+        //   childModel.setData(
+        //       (myData[index] as Map<String, dynamic>)..addAll(data!), context);
+        //   return Card(child: childModel.render(context));
+        // }
+
+        // return Container();
       },
     ));
   }

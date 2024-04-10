@@ -41,11 +41,11 @@ class PopupLayout extends LayoutBase {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      //data: data,
       onPollFinished: (ActionModel? action) {
         Navigator.pop(context);
         if (action != null) {
-          action.setData(data);
+          //action.setData(data, context);
           action.perform(context);
         }
       },
@@ -59,13 +59,13 @@ class PopupLayout extends LayoutBase {
     return AlertDialog(
       content: Column(
           children: children!.map((e) {
-        e.setData(data); // Pass data to each child
+        //e.setData(data); // Pass data to each child
         return Expanded(
             child: Card(
                 child: Row(children: [Expanded(child: e.render(context))])));
       }).toList()),
       actions: actions?.map((e) {
-        e.setData(data);
+        //e.setData(data);
         return e.render(context, onAction: () {
           Navigator.pop(context);
         });

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/base/iterativeItemModel.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class ListLayout extends LayoutBase {
   final List<BaseModel>? children;
@@ -40,7 +42,7 @@ class ListLayout extends LayoutBase {
     return ElementRenderer(
       getCmp: (resp) => _getCmp(context, resp),
       initAction: initAction,
-      data: data,
+      //data: data,
     );
   }
 
@@ -61,16 +63,24 @@ class ListLayout extends LayoutBase {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         if (itemRendererModel != null) {
-          BaseModel? childModel = itemRendererModel?.createItem();
-          if (childModel != null) {
-            //childModel.data = myData[index];
-            childModel.setData(
-                (myData[index] as Map<String, dynamic>)..addAll(data!));
-            return SizedBox(
-                height: 100, child: Card(child: childModel.render(context)));
-          }
+          DataModel oldModel = Provider.of<DataModel>(context, listen: false);
+          DataModel newModel = DataModel(oldModel.data);
+          newModel.setData(oldModel.data["data"][index]);
 
-          return Container();
+          return ChangeNotifierProvider<DataModel>.value(
+              value: newModel,
+              builder: (ctx, w) => SizedBox(
+                  height: 100,
+                  child: Card(
+                      child: itemRendererModel?.createItem().render(ctx))));
+
+          // BaseModel? childModel = itemRendererModel?.createItem();
+          // if (childModel != null) {
+          //   return SizedBox(
+          //       height: 100, child: Card(child: childModel.render(context)));
+          // }
+
+          // return Container();
         } else if (children != null) {
           return children![index].render(context);
         } else {

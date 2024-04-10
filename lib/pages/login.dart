@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/pages/httpUtils.dart';
 import 'package:call_poc_2/pages/search.dart';
+import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/views/patientFlow.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import "../settings.dart";
 
 class LoginPage extends StatefulWidget {
@@ -36,17 +38,35 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     BaseModel model = BaseModel.fromJson(patientHomeScreen);
-    model.data = {
+    // model.data = {
+    //   "patient_id": "65c9f89d031272e866295a9a",
+    //   "latitude": "18.577954759165255",
+    //   "longitude": "73.76560389261459"
+    // };
+
+    DataModel d = DataModel({
       "patient_id": "65c9f89d031272e866295a9a",
       "latitude": "18.577954759165255",
       "longitude": "73.76560389261459"
-    };
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Login"),
-        ),
-        body: model.render(context)
-        /* Column(
+    });
+
+    return MultiProvider(
+        providers: [ChangeNotifierProvider<DataModel>.value(value: d)],
+        builder: (context, child) => Scaffold(
+              appBar: AppBar(
+                title: const Text("Login"),
+              ),
+              body: model.render(context),
+            ));
+
+    // return ChangeNotifierProvider<DataModel>(
+    //     create: (context) => DataModel(model.data),
+    //     child: Scaffold(
+    //         appBar: AppBar(
+    //           title: const Text("Login"),
+    //         ),
+    //         body: model.render(context))
+    /* Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -111,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                 ])
               ])
             ])*/
-        );
+    //);
   }
 
   updateTokenDeviceLogin() {

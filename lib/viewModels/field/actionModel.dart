@@ -22,25 +22,28 @@ class ActionModel {
         parentData: data);
   }
 
-  void setData(Map<String, dynamic>? d) {
+  void setData(Map<String, dynamic>? d, BuildContext context) {
     if (d == null) {
       return;
     }
-    if (parentData != null) {
-      parentData!.addAll(d);
-    } else {
-      parentData = d;
-    }
+    DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    componentData.setData(d);
+    // if (parentData != null) {
+    //   parentData!.addAll(d);
+    // } else {
+    //   parentData = d;
+    // }
   }
 
   void perform(BuildContext context) {
     LayoutBase model = LayoutBase.fromJson(getPage(pageId!));
-    model.data = {};
+    DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    Map<String, dynamic> myData = {};
     data?.forEach((element) {
       if (element is Map<String, dynamic>) {
-        model.data![element["newKey"]] = parentData?[element["oldKey"]];
+        myData![element["newKey"]] = componentData.data[element["oldKey"]];
       } else {
-        model.data![element] = parentData?[element];
+        myData![element] = componentData.data[element];
       }
     });
 
@@ -51,14 +54,18 @@ class ActionModel {
               appBar: AppBar(
                 title: Text(model.title ?? ''),
               ),
-              body: model.render(context)),
+              body: ChangeNotifierProvider<DataModel>(
+                  create: (_) => DataModel(myData),
+                  builder: (ctx, child) => model.render(ctx))),
         ));
         break;
       case "popup":
         showDialog(
           context: context,
           builder: (context) {
-            return model.render(context);
+            return ChangeNotifierProvider<DataModel>(
+                create: (_) => DataModel(myData),
+                builder: (ctx, child) => model.render(ctx));
           },
         );
       default:
