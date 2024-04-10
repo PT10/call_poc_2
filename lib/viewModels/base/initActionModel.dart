@@ -96,7 +96,11 @@ class InitActionModel {
         }
       } else {
         if (data!.containsKey(key)) {
-          initActions[i].params[key] = data[key];
+          if (initActions[i].params[key] is String) {
+            initActions[i].params[key] = data[key].toString();
+          } else {
+            initActions[i].params[key] = data[key];
+          }
         }
       }
     });
