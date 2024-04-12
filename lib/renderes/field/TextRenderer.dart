@@ -1,11 +1,13 @@
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/field/textButtonField.dart';
+import 'package:call_poc_2/viewModels/field/textField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 
 class TextRenderer extends ElementRenderer {
-  const TextRenderer(super.type, super.layoutModel,
+  const TextRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -18,26 +20,16 @@ class TextRenderer extends ElementRenderer {
 class _TextRendererState extends ElementRendererState<TextRenderer> {
   @override
   Widget getWidget() {
-    DataModel model = Provider.of<DataModel>(context, listen: false);
-    TextButtonField fieldModel = widget.layoutModel as TextButtonField;
-    return TextButton(
-      onPressed: () {
-        if (widget.onAction != null) {
-          widget
-              .onAction!(); // Action performed on the parent component.. e.g. close popup window
-        }
-        if (fieldModel.action != null) {
-          //action!.setData(resp);
-          //action!.perform(context);
-          //DataModel d = Provider.of<DataModel>(context, listen: false);
-          //d.setData(resp ?? {});
-          fieldModel.action!.perform(context);
-        }
-      },
-      child: Text(fieldModel.buttonText ??
-          (model.data.containsKey(fieldModel.buttonTextFieldInData)
-              ? model.data[fieldModel.buttonTextFieldInData]
-              : '')),
+    TextFieldCustom fieldModel = widget.elementModel as TextFieldCustom;
+    return FormBuilderTextField(
+      key: GlobalKey(),
+      name: fieldModel.id,
+      obscureText: fieldModel.obscure,
+      decoration: InputDecoration(
+        //icon: const Icon(Icons.person),
+        hintText: fieldModel.hintText,
+        labelText: fieldModel.label,
+      ),
     );
   }
 }

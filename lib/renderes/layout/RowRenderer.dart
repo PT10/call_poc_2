@@ -4,7 +4,7 @@ import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
 import 'package:flutter/material.dart';
 
 class RowRenderer extends ElementRenderer {
-  const RowRenderer(super.type, super.layoutModel,
+  const RowRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -17,7 +17,7 @@ class RowRenderer extends ElementRenderer {
 class _RowRendererState extends ElementRendererState<RowRenderer> {
   @override
   Widget getWidget() {
-    RowLayout columnLayout = widget.layoutModel as RowLayout;
+    RowLayout columnLayout = widget.elementModel as RowLayout;
     if (columnLayout.children == null) {
       return Container();
     }

@@ -21,15 +21,16 @@ class _TextButtonRendererState
   @override
   Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
-    TextButtonField fieldModel = widget.layoutModel as TextButtonField;
+    TextButtonField fieldModel = widget.elementModel as TextButtonField;
     return TextButton(
       onPressed: () {
-        if (widget.onAction != null) {
+        /* if (widget.onAction != null) {
           widget
               .onAction!(); // Action performed on the parent component.. e.g. close popup window
-        }
+        } */
         if (fieldModel.action != null) {
-          fieldModel.action!.perform(context);
+          fieldModel.action!.forEach((element) =>
+              element.perform(context, actionCallBack: widget.onAction));
         }
       },
       child: Text(fieldModel.buttonText ??

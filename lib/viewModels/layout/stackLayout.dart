@@ -6,7 +6,7 @@ class StackLayout extends LayoutBase {
   final List<BaseModel>? children;
 
   StackLayout(super.type, super.subType, this.children,
-      {super.title, super.initAction});
+      {super.title, super.initAction, super.condition});
 
   factory StackLayout.fromJson(Map<String, dynamic> json) {
     return StackLayout(
@@ -21,6 +21,7 @@ class StackLayout extends LayoutBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

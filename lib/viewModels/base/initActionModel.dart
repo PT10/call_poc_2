@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:call_poc_2/pages/httpUtils.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
+import 'package:call_poc_2/viewModels/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -30,8 +31,8 @@ class InitActionModel {
 
     json.forEach(
       (element) {
-        tempActions.add(InitAction(
-            element["api"], Map<String, dynamic>.from(element["params"] ?? {}),
+        tempActions.add(InitAction(replaceVariables(element["api"])!,
+            Map<String, dynamic>.from(element["params"] ?? {}),
             mode: element["mode"],
             breakCondition: element["breakCondition"],
             action: element.containsKey("action")

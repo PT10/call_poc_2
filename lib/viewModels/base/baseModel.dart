@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 abstract class BaseModel {
   final String type, subType;
   final InitActionModel? initAction;
+  final Map<String, dynamic>? condition;
   //Map<String, dynamic> data = {};
 
-  BaseModel(this.type, this.subType, {this.initAction});
+  BaseModel(this.type, this.subType, {this.initAction, this.condition});
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
     if (json["type"] == "layout") {

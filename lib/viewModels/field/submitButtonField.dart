@@ -1,28 +1,26 @@
-import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/renderes/elementRenderer.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
-class TextButtonField extends FieldBase {
+class SubmitButtonField extends FieldBase {
   String? iconUrl, buttonText, buttonTextFieldInData;
+  InitActionModel submitAction;
 
-  TextButtonField(
-    super.type,
-    super.subType, {
-    this.iconUrl,
-    this.buttonText,
-    this.buttonTextFieldInData,
-    super.action,
-    super.initAction,
-  });
+  SubmitButtonField(super.type, super.subType, this.submitAction,
+      {this.iconUrl,
+      this.buttonText,
+      this.buttonTextFieldInData,
+      super.action,
+      super.initAction,
+      super.condition});
 
   @override
-  factory TextButtonField.fromJson(Map<String, dynamic> json) {
-    return TextButtonField(json["type"], json["subType"],
+  factory SubmitButtonField.fromJson(Map<String, dynamic> json) {
+    return SubmitButtonField(
+        json["type"],
+        json["subType"],
+        InitActionModel.fromJson(
+            [json["submitAction"] as Map<String, dynamic>]),
         iconUrl: json["iconUrl"],
         buttonText: json["buttonText"],
         buttonTextFieldInData: json["buttonTextFieldInData"],
@@ -35,6 +33,7 @@ class TextButtonField extends FieldBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

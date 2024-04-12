@@ -17,7 +17,11 @@ class ListLayout extends LayoutBase {
   final IterativeItemModel? itemRendererModel;
 
   ListLayout(super.type, super.subType,
-      {this.children, this.itemRendererModel, super.title, super.initAction});
+      {this.children,
+      this.itemRendererModel,
+      super.title,
+      super.initAction,
+      super.condition});
 
   factory ListLayout.fromJson(Map<String, dynamic> json) {
     return ListLayout(json["type"], json["subType"],
@@ -34,6 +38,7 @@ class ListLayout extends LayoutBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

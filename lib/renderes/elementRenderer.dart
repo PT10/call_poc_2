@@ -10,6 +10,7 @@ import 'package:call_poc_2/renderes/layout/ListRenderer.dart';
 import 'package:call_poc_2/renderes/layout/PopUpRenderer.dart';
 import 'package:call_poc_2/renderes/layout/RowRenderer.dart';
 import 'package:call_poc_2/renderes/layout/StackRenderer.dart';
+import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
@@ -21,11 +22,11 @@ abstract class ElementRenderer extends StatefulWidget {
   // final Widget myCmp;
   final String type;
   final InitActionModel? initAction;
-  final BaseModel layoutModel;
+  final BaseModel elementModel;
   final Function(Map<String, dynamic>?) getCmp;
-  final Function? onAction;
+  final Function(String type)? onAction;
   final Function? onPollFinished;
-  const ElementRenderer(this.type, this.layoutModel,
+  const ElementRenderer(this.type, this.elementModel,
       {required this.getCmp,
       this.initAction,
       this.onPollFinished,
@@ -41,7 +42,7 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
   String? errorMsg;
   @override
   void initState() {
-    if (widget.layoutModel.initAction != null) {
+    if (widget.elementModel.initAction != null) {
       _performInitAction();
     } else {
       loadingCompleted = true;
@@ -52,7 +53,7 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
   _performInitAction({bool pollModel = false}) {
     // Init action can also update the widget.data
     DataModel componentData = Provider.of<DataModel>(context, listen: false);
-    widget.layoutModel.initAction!
+    widget.elementModel.initAction!
         .perform(context, pollMode: pollModel)
         .then((value) {
       setState(() {
@@ -60,7 +61,7 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
         componentData.setData(json.decode(value.body));
       });
 
-      InitAction lastAction = widget.layoutModel.initAction!.initActions.last;
+      InitAction lastAction = widget.elementModel.initAction!.initActions.last;
       if (lastAction.mode == "poll" && lastAction.breakCondition != null) {
         var resp = json.decode(value.body);
         if (resp[lastAction.breakCondition!["field"]] !=
@@ -98,83 +99,5 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
     return Container(
       child: Text("Base class"),
     );
-  }
-
-  Widget _getWidget2() {
-    switch (widget.type) {
-      case 'column':
-        return ColumnRenderer(
-          'column',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'row':
-        return RowRenderer(
-          'row',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'list':
-        return ListRenderer(
-          'list',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'grid':
-        return GridRenderer(
-          'grid',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'stack':
-        return StackRenderer(
-          'stack',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'popup':
-        return PopUpRenderer(
-          'popup',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-          onAction: () {
-            Navigator.pop(context);
-          },
-          onPollFinished: (ActionModel? action) {
-            // Navigator.pop(context);
-            if (action != null) {
-              //action.setData(data, context);
-              action.perform(context);
-            }
-          },
-        );
-      case 'label':
-        return LabelRenderer(
-          'label',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'iconButton':
-        return IconButtonRenderer(
-          'iconButton',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      case 'textButton':
-        return TextButtonRenderer(
-          'textButton',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-          onAction: widget.onAction,
-        );
-      case 'agoraCallPage':
-        return AgoraCallPage(
-          'agoraCallPage',
-          widget.layoutModel,
-          getCmp: widget.getCmp,
-        );
-      default:
-        return const Center(child: Text("Undefined widget type"));
-    }
   }
 }

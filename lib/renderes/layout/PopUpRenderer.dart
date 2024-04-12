@@ -4,7 +4,7 @@ import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:flutter/material.dart';
 
 class PopUpRenderer extends ElementRenderer {
-  const PopUpRenderer(super.type, super.layoutModel,
+  const PopUpRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -18,7 +18,7 @@ class PopUpRenderer extends ElementRenderer {
 class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
   @override
   Widget getWidget() {
-    PopupLayout popupModel = widget.layoutModel as PopupLayout;
+    PopupLayout popupModel = widget.elementModel as PopupLayout;
     if (popupModel.children == null) {
       return Container();
     }
@@ -36,10 +36,12 @@ class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
         ])));
       }).toList()),
       actions: popupModel.actions?.map<Widget>((e) {
-        return RendererFactory.getWidget(e.subType, e,
-            context: context,
-            onAction: widget.onAction,
-            onPollFinished: widget.onPollFinished);
+        return RendererFactory.getWidget(e.subType, e, context: context,
+            onAction: (type) {
+          if (type == 'close') {
+            Navigator.pop(context);
+          }
+        }, onPollFinished: widget.onPollFinished);
       }).toList(),
     );
   }

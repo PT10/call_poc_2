@@ -1,19 +1,19 @@
-import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/renderes/elementRenderer.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
-class TextButtonField extends FieldBase {
-  String? iconUrl, buttonText, buttonTextFieldInData;
+class DropDownField extends FieldBase {
+  final String id;
+  final String? buttonText, buttonTextFieldInData;
+  final List<Map<String, dynamic>> values;
+  final String? value;
 
-  TextButtonField(
+  DropDownField(
     super.type,
-    super.subType, {
-    this.iconUrl,
+    super.subType,
+    this.id, {
+    this.values = const [],
+    this.value,
     this.buttonText,
     this.buttonTextFieldInData,
     super.action,
@@ -21,11 +21,11 @@ class TextButtonField extends FieldBase {
   });
 
   @override
-  factory TextButtonField.fromJson(Map<String, dynamic> json) {
-    return TextButtonField(json["type"], json["subType"],
-        iconUrl: json["iconUrl"],
+  factory DropDownField.fromJson(Map<String, dynamic> json) {
+    return DropDownField(json["type"], json["subType"], json["id"],
+        values: json["values"] as List<Map<String, dynamic>>,
+        value: json["value"],
         buttonText: json["buttonText"],
-        buttonTextFieldInData: json["buttonTextFieldInData"],
         action: json.containsKey("action")
             ? (json["action"] as List)
                 .map((e) =>

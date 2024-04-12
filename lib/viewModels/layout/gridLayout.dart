@@ -18,7 +18,11 @@ class GridLayout extends LayoutBase {
   final int numCols;
 
   GridLayout(super.type, super.subType, this.numCols,
-      {this.children, this.itemRendererModel, super.title, super.initAction});
+      {this.children,
+      this.itemRendererModel,
+      super.title,
+      super.initAction,
+      super.condition});
 
   factory GridLayout.fromJson(Map<String, dynamic> json) {
     return GridLayout(json["type"], json["subType"], json["numCols"],
@@ -33,6 +37,7 @@ class GridLayout extends LayoutBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

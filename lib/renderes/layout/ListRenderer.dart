@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListRenderer extends ElementRenderer {
-  const ListRenderer(super.type, super.layoutModel,
+  const ListRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -36,7 +36,7 @@ class _ListRendererState extends ElementRendererState<ListRenderer> {
       );
     }
 
-    ListLayout listModel = widget.layoutModel as ListLayout;
+    ListLayout listModel = widget.elementModel as ListLayout;
     return ListView.builder(
       itemCount: myData.isNotEmpty ? myData.length : listModel.children?.length,
       shrinkWrap: true,

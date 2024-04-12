@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LabelRenderer extends ElementRenderer {
-  const LabelRenderer(super.type, super.layoutModel,
+  const LabelRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -20,7 +20,7 @@ class _LabelRendererState extends ElementRendererState<LabelRenderer> {
   @override
   Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
-    LabelField fieldModel = widget.layoutModel as LabelField;
+    LabelField fieldModel = widget.elementModel as LabelField;
     return Wrap(
       children: skipNulls([
         fieldModel.label != null ? Text(fieldModel.label!) : null,

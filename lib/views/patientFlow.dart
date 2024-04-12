@@ -7,11 +7,13 @@ var patientHomeScreen = {
       "subType": "iconButton",
       "iconUrl": "",
       "buttonText": "Connect with emergency specialist",
-      "action": {
-        "type": "navigate",
-        "pageId": "patientDashboard",
-        "data": ["patient_id", "latitude", "longitude"]
-      }
+      "action": [
+        {
+          "type": "navigate",
+          "pageId": "patientDashboard",
+          "data": ["patient_id", "latitude", "longitude"]
+        }
+      ]
     },
     {
       "type": "layout",
@@ -22,14 +24,18 @@ var patientHomeScreen = {
           "subType": "iconButton",
           "iconUrl": "",
           "buttonText": "Ambulance",
-          "action": {"type": "launch_app", "data": [], "appId": ""}
+          "action": [
+            {"type": "launch_app", "data": [], "appId": ""}
+          ]
         },
         {
           "type": "field",
           "subType": "iconButton",
           "iconUrl": "",
           "buttonText": "Home Visit",
-          "action": {"type": "popup", "cmpId": ""}
+          "action": [
+            {"type": "popup", "cmpId": ""}
+          ]
         }
       ]
     },
@@ -38,7 +44,9 @@ var patientHomeScreen = {
       "subType": "iconButton",
       "iconUrl": "",
       "buttonText": "SOS",
-      "action": {"type": "popup", "componentId": ""}
+      "action": [
+        {"type": "popup", "componentId": ""}
+      ]
     },
   ]
 };
@@ -68,7 +76,7 @@ var patientDashboard = {
       },
       "initAction": [
         {
-          "api": "http://192.168.0.101:4009/symptom_controller/list2",
+          "api": "__SERVER__/symptom_controller/list2",
           "params": {"emergency_type": "1", "accidental_type": "0"}
         }
       ]
@@ -77,33 +85,37 @@ var patientDashboard = {
       "type": "field",
       "subType": "textButton",
       "buttonText": "Any other illness",
-      "action": {
-        "type": "navigate",
-        "data": [
-          "patient_id",
-          "latitude",
-          "longitude",
-          {"symptom": "1"},
-          {"specialisation": "Hospitals with ICU & OT"}
-        ],
-        "pageId": "doctorListVicinity"
-      }
+      "action": [
+        {
+          "type": "navigate",
+          "data": [
+            "patient_id",
+            "latitude",
+            "longitude",
+            {"symptom": "1"},
+            {"specialisation": "Hospitals with ICU & OT"}
+          ],
+          "pageId": "doctorListVicinity"
+        }
+      ]
     },
     {
       "type": "field",
       "subType": "textButton",
       "buttonText": "Accidents & Emergeincies",
-      "action": {
-        "type": "navigate",
-        "data": [
-          "patient_id",
-          "latitude",
-          "longitude",
-          {"symptom": "1"},
-          {"specialisation": "Hospitals with ICU & OT"}
-        ],
-        "pageId": "doctorListVicinity"
-      }
+      "action": [
+        {
+          "type": "navigate",
+          "data": [
+            "patient_id",
+            "latitude",
+            "longitude",
+            {"symptom": "1"},
+            {"specialisation": "Hospitals with ICU & OT"}
+          ],
+          "pageId": "doctorListVicinity"
+        }
+      ]
     },
   ]
 };
@@ -113,11 +125,13 @@ var roundedIconWithText = {
   "subType": "iconButton",
   "idField": "_id",
   "buttonTextFieldInData": "symptom_name",
-  "action": {
-    "type": "navigate",
-    "data": ["specialisation_id", "patient_id", "latitude", "longitude"],
-    "pageId": "doctorListVicinity"
-  }
+  "action": [
+    {
+      "type": "navigate",
+      "data": ["specialisation_id", "patient_id", "latitude", "longitude"],
+      "pageId": "doctorListVicinity"
+    }
+  ]
 };
 
 var doctorListVicinity = {
@@ -126,7 +140,7 @@ var doctorListVicinity = {
   "itemRenderer": {"pageId": "doctorListItem"},
   "initAction": [
     {
-      "api": "http://192.168.0.101:4009/order_controller/doctor_search",
+      "api": "__SERVER__/order_controller/doctor_search",
       "params": {
         "specialisation_id": "__val__",
         "latitude": "__val__",
@@ -154,17 +168,19 @@ var doctorListItem = {
           "subType": "iconButton",
           "iconUrl": "video_icon",
           "buttonText": "",
-          "action": {
-            "type": "popup",
-            "pageId": "paymentPopup",
-            "data": [
-              {"newKey": "doctor_id", "oldKey": "_id"},
-              "patient_id",
-              "specialisation_id",
-              "latitude",
-              "longitude"
-            ]
-          }
+          "action": [
+            {
+              "type": "popup",
+              "pageId": "paymentPopup",
+              "data": [
+                {"newKey": "doctor_id", "oldKey": "_id"},
+                "patient_id",
+                "specialisation_id",
+                "latitude",
+                "longitude"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -196,8 +212,7 @@ var paymentPopup = {
           "subType": "label",
           "initAction": [
             {
-              "api":
-                  "http://192.168.0.101:4009/symptom_controller/patient_call_details",
+              "api": "__SERVER__/symptom_controller/patient_call_details",
               "params": {"patient_id": "__val__"}
             }
           ],
@@ -211,20 +226,30 @@ var paymentPopup = {
       "type": "field",
       "subType": "textButton",
       "buttonText": "Agree",
-      "action": {
-        "type": "popup",
-        "data": [
-          "amount",
-          "doctor_id",
-          "patient_id",
-          "specialisation_id",
-          "latitude",
-          "longitude"
-        ],
-        "pageId": "videoCallPopUp"
-      }
+      "action": [
+        {
+          "type": "popup",
+          "data": [
+            "amount",
+            "doctor_id",
+            "patient_id",
+            "specialisation_id",
+            "latitude",
+            "longitude"
+          ],
+          "pageId": "videoCallPopUp"
+        },
+        {"type": "close"}
+      ]
     },
-    {"type": "field", "subType": "textButton", "buttonText": "Disagree"},
+    {
+      "type": "field",
+      "subType": "textButton",
+      "buttonText": "Disagree",
+      "action": [
+        {"type": "close"}
+      ]
+    },
   ]
 };
 
@@ -234,18 +259,20 @@ var razorPay = {
   "params": [
     {"key": ""}
   ],
-  "action": {
-    "type": "navigate",
-    "data": [
-      "amount",
-      "doctor_id",
-      "patient_id",
-      "specialisation_id",
-      "latitude",
-      "longitude"
-    ],
-    "pageId": "videoCallPopUp"
-  }
+  "action": [
+    {
+      "type": "navigate",
+      "data": [
+        "amount",
+        "doctor_id",
+        "patient_id",
+        "specialisation_id",
+        "latitude",
+        "longitude"
+      ],
+      "pageId": "videoCallPopUp"
+    }
+  ]
 };
 
 var videoCallPopUp = {
@@ -257,7 +284,7 @@ var videoCallPopUp = {
   ],
   "initAction": [
     {
-      "api": "http://192.168.0.101:4009/order_controller/create",
+      "api": "__SERVER__/order_controller/create",
       "id": "create",
       "params": {
         "patient_id": "__val__",
@@ -268,7 +295,7 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.101:4009/notification_controller/video_call",
+      "api": "__SERVER__/notification_controller/video_call",
       "params": {
         "sender_id": {"oldKey": "patient_id", "value": "__val__"},
         "receiver_id": {"oldKey": "doctor_id", "value": "__val__"},
@@ -278,32 +305,35 @@ var videoCallPopUp = {
       }
     },
     {
-      "api": "http://192.168.0.101:4009/order_controller/call_status_notify",
+      "api": "__SERVER__/order_controller/call_status_notify",
       "params": {"order_id": "__val__"},
       "mode": "poll",
       "interval": 500,
       "timeout": 30000,
       "breakCondition": {"field": "data", "op": "eq", "value": 1},
-      "action": {
-        "type": "navigate",
-        "data": [
-          "channel_name",
-          "isPromotional",
-          "promotionalCallMsg",
-          "order_id",
-          "doctor_id",
-          "calling_from",
-          "doctor_name",
-          "doctor_specialisation",
-          "patient_name",
-          "doctor_distance",
-          "is_server_call",
-          "isOtherEmergency",
-          "specialization_id",
-          "amount"
-        ],
-        "pageId": "videoCall"
-      }
+      "action": [
+        {
+          "type": "navigate",
+          "data": [
+            "channel_name",
+            "isPromotional",
+            "promotionalCallMsg",
+            "order_id",
+            "doctor_id",
+            "calling_from",
+            "doctor_name",
+            "doctor_specialisation",
+            "patient_name",
+            "doctor_distance",
+            "is_server_call",
+            "isOtherEmergency",
+            "specialization_id",
+            "amount"
+          ],
+          "pageId": "videoCall"
+        },
+        {"type": "close"}
+      ]
     }
   ],
 };
@@ -323,13 +353,15 @@ var videoCall = {
       "iconUrl": "",
       "buttonText": "",
       "align": "bottom",
-      "action": {
-        "type": "navigate",
-        "pageId": "uploadDoc",
-        "data": [
-          "order_id_sender",
-        ]
-      }
+      "action": [
+        {
+          "type": "navigate",
+          "pageId": "uploadDoc",
+          "data": [
+            "order_id_sender",
+          ]
+        }
+      ]
     },
     {
       "type": "field",
@@ -337,7 +369,9 @@ var videoCall = {
       "iconUrl": "",
       "buttonText": "",
       "align": "bottom",
-      "action": {"type": "navigate", "pageId": "patientDashboard"}
+      "action": [
+        {"type": "navigate", "pageId": "patientDashboard"}
+      ]
     },
     {
       "type": "field",
@@ -345,7 +379,9 @@ var videoCall = {
       "iconUrl": "",
       "buttonText": "",
       "align": "bottom",
-      "action": {"type": "navigate", "pageId": "patientDashboard"}
+      "action": [
+        {"type": "navigate", "pageId": "patientDashboard"}
+      ]
     },
   ]
 };
@@ -365,17 +401,17 @@ var uploadDoc = {
           "type": "field",
           "subType": "textButton",
           "buttonText": "Cancel",
-          "action": {"close": "true"}
+          "action": [
+            {"close": "true"}
+          ]
         },
         {
           "type": "field",
           "subType": "textButton",
           "buttonText": "Submit",
-          "action": {
-            "type": "api",
-            "api": "patient_controller/upload",
-            "close": "true"
-          }
+          "action": [
+            {"type": "api", "api": "patient_controller/upload", "close": "true"}
+          ]
         }
       ]
     }

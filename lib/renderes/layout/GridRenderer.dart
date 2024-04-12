@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GridRenderer extends ElementRenderer {
-  const GridRenderer(super.type, super.layoutModel,
+  const GridRenderer(super.type, super.elementModel,
       {required super.getCmp,
       super.initAction,
       super.onPollFinished,
@@ -21,7 +21,7 @@ class _GridRendererState extends ElementRendererState<GridRenderer> {
   @override
   Widget getWidget() {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
-    GridLayout grid = widget.layoutModel as GridLayout;
+    GridLayout grid = widget.elementModel as GridLayout;
     return Card(
         child: GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

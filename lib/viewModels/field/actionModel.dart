@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
@@ -13,14 +14,17 @@ class ActionModel {
   String? pageId;
   List<dynamic>? data;
   Map<String, dynamic>? parentData;
+  String? variable;
 
-  ActionModel(this.type, {this.pageId, this.data, this.parentData});
+  ActionModel(this.type,
+      {this.pageId, this.data, this.parentData, this.variable});
 
   factory ActionModel.fromJson(
       Map<String, dynamic> json, Map<String, dynamic>? data) {
     return ActionModel(json["type"],
         pageId: json["pageId"],
         data: List<dynamic>.from(json["data"] ?? []),
+        variable: json["var"],
         parentData: data);
   }
 
@@ -37,9 +41,20 @@ class ActionModel {
     // }
   }
 
-  void perform(BuildContext context) {
-    LayoutBase model = LayoutBase.fromJson(getPage(pageId!));
+  void perform(BuildContext context, {Function? actionCallBack}) {
     DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    if (type == 'memoryUpdate') {
+      globalVariables[variable!] = componentData.data[variable];
+      return;
+    } else if (type == 'refresh' && actionCallBack != null) {
+      actionCallBack("refresh");
+      return;
+    } else if (type == 'close' && actionCallBack != null) {
+      actionCallBack("close");
+      return;
+    }
+    LayoutBase model = LayoutBase.fromJson(getPage(pageId!));
+
     Map<String, dynamic> myData = {};
     data?.forEach((element) {
       if (element is Map<String, dynamic>) {
@@ -64,6 +79,23 @@ class ActionModel {
                         context: context,
                       ))),
         ));
+        break;
+      case "navigateFresh":
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    title: Text(model.title ?? ''),
+                  ),
+                  body: ChangeNotifierProvider<DataModel>(
+                      create: (_) => DataModel(myData),
+                      builder: (ctx, child) => RendererFactory.getWidget(
+                            model.subType,
+                            model,
+                            context: context,
+                          ))),
+            ),
+            (Route<dynamic> route) => false);
         break;
       case "popup":
         showDialog(

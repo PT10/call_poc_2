@@ -10,7 +10,7 @@ class RowLayout extends LayoutBase {
   final List<BaseModel>? children;
 
   RowLayout(super.type, super.subType, this.children,
-      {super.title, super.initAction});
+      {super.title, super.initAction, super.condition});
 
   factory RowLayout.fromJson(Map<String, dynamic> json) {
     return RowLayout(
@@ -25,6 +25,7 @@ class RowLayout extends LayoutBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

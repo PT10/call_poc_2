@@ -1,14 +1,6 @@
-import 'dart:convert';
-
-import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/renderes/elementRenderer.dart';
-import 'package:call_poc_2/viewModels/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
 class LabelField extends FieldBase {
   String? label, valueField;
@@ -28,34 +20,14 @@ class LabelField extends FieldBase {
         label: json["label"],
         valueField: json["valueField"],
         action: json.containsKey("action")
-            ? ActionModel.fromJson(json["action"] as Map<String, dynamic>, null)
+            ? (json["action"] as List)
+                .map((e) =>
+                    ActionModel.fromJson(e as Map<String, dynamic>, null))
+                .toList()
             : null,
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null);
-  }
-
-  // @override
-  // Widget render(BuildContext context, {Function? onAction}) {
-  //   return ElementRenderer(
-  //     'label', this,
-  //     getCmp: (resp) => _getCmp(context, resp),
-  //     initAction: initAction,
-  //     // data: data,
-  //   );
-  // }
-
-  Widget _getCmp(BuildContext context, Map<String, dynamic>? resp) {
-    // if (resp != null) {
-    //   data?.addAll(resp);
-    // }
-    DataModel d = Provider.of<DataModel>(context, listen: false);
-    return Wrap(
-      children: skipNulls([
-        label != null ? Text(label!) : null,
-        valueField != null ? Text(d.data[valueField]?.toString() ?? '') : null
-      ]),
-    );
   }
 }
