@@ -7,6 +7,9 @@ class DataModel extends ChangeNotifier {
 
   void setData(Map<String, dynamic> d) {
     data.addAll(d);
+    if (d.containsKey("data") && d["data"] is Map<String, dynamic>) {
+      data.addAll(d["data"]);
+    }
     notifyListeners();
   }
 }

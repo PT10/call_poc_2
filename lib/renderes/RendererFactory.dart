@@ -11,6 +11,7 @@ import 'package:call_poc_2/renderes/layout/GridRenderer.dart';
 import 'package:call_poc_2/renderes/layout/ListRenderer.dart';
 import 'package:call_poc_2/renderes/layout/PopUpRenderer.dart';
 import 'package:call_poc_2/renderes/layout/RowRenderer.dart';
+import 'package:call_poc_2/renderes/layout/ScaffoldRenderer.dart';
 import 'package:call_poc_2/renderes/layout/StackRenderer.dart';
 import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
@@ -19,53 +20,55 @@ import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:flutter/material.dart';
 
 class RendererFactory {
-  static dynamic getWidget(String type, BaseModel layoutModel,
+  static dynamic getWidget(String type, BaseModel elementModel,
       {BuildContext? context,
       Function(String)? onAction,
       Function(InitActionModel, List<ActionModel>?)? onFormSubmit,
       Function? onPollFinished}) {
-    if (layoutModel.condition != null) {
-      var variableName = layoutModel.condition!["var"];
+    if (elementModel.condition != null) {
+      var variableName = elementModel.condition!["var"];
       if (!globalVariables.containsKey(variableName) ||
-          globalVariables[variableName] != layoutModel.condition!["val"]) {
+          globalVariables[variableName] != elementModel.condition!["val"]) {
         return null;
       }
     }
     switch (type) {
+      case 'scaffold':
+        return ScaffoldRenderer('scaffold', elementModel, getCmp: (_) {});
       case 'column':
         return ColumnRenderer(
           'column',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'row':
         return RowRenderer(
           'row',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'list':
         return ListRenderer(
           'list',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'grid':
         return GridRenderer(
           'grid',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'stack':
         return StackRenderer(
           'stack',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'popup':
         return PopUpRenderer(
           'popup',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
           /* onAction: () {
             Navigator.pop(context!);
@@ -79,35 +82,35 @@ class RendererFactory {
           },
         );
       case 'form':
-        return FormRenderer(type, layoutModel, getCmp: (_) {});
+        return FormRenderer(type, elementModel, getCmp: (_) {});
       case 'dropDown':
-        return DropDownRenderer(type, layoutModel,
+        return DropDownRenderer(type, elementModel,
             getCmp: (_) {}, onAction: onAction);
       case 'text':
-        return TextRenderer(type, layoutModel, getCmp: (_) {});
+        return TextRenderer(type, elementModel, getCmp: (_) {});
       case 'label':
         return LabelRenderer(
           'label',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'iconButton':
         return IconButtonRenderer(
           'iconButton',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
       case 'textButton':
         return TextButtonRenderer(
           'textButton',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
           onAction: (type) => onAction != null ? onAction(type) : null,
         );
       case 'submit':
         return SubmitButtonRenderer(
           'textButton',
-          layoutModel,
+          elementModel,
           onFormSubmit!,
           getCmp: (_) {},
           onAction: (type) => onAction != null ? onAction(type) : null,
@@ -115,7 +118,7 @@ class RendererFactory {
       case 'agoraCallPage':
         return AgoraCallPage(
           'agoraCallPage',
-          layoutModel,
+          elementModel,
           getCmp: (_) {},
         );
 

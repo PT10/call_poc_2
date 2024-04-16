@@ -5,15 +5,13 @@ import 'package:call_poc_2/viewModels/field/fieldBase.dart';
 class IconButtonField extends FieldBase {
   String? iconUrl, buttonText, buttonTextFieldInData;
 
-  IconButtonField(
-    super.type,
-    super.subType, {
-    this.iconUrl,
-    this.buttonText,
-    this.buttonTextFieldInData,
-    super.action,
-    super.initAction,
-  });
+  IconButtonField(super.type, super.subType,
+      {this.iconUrl,
+      this.buttonText,
+      this.buttonTextFieldInData,
+      super.action,
+      super.initAction,
+      super.condition});
 
   @override
   factory IconButtonField.fromJson(Map<String, dynamic> json) {
@@ -30,6 +28,7 @@ class IconButtonField extends FieldBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

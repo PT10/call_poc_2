@@ -1,4 +1,7 @@
 import 'package:call_poc_2/settings.dart';
+import 'package:call_poc_2/views/conciergeFlow.dart';
+import 'package:call_poc_2/views/doctorFlow.dart';
+import 'package:call_poc_2/views/homeScreen.dart';
 import 'package:call_poc_2/views/loginFlow.dart';
 import 'package:call_poc_2/views/patientFlow.dart';
 
@@ -8,8 +11,14 @@ Map<String, dynamic> getPage(String id) {
       return login;
     case 'otpSignInPage':
       return otpSignInPage;
+    case 'enterOtpPage':
+      return enterOtpPage;
     case 'patientHomeScreen':
       return patientHomeScreen;
+    case 'doctorHomeScreen':
+      return doctorHomeScreen;
+    case 'conciergeHomeScreen':
+      return conciergeHomeScreen;
     case 'patientDashboard':
       return patientDashboard;
     case 'roundedIconWithText':
@@ -24,6 +33,8 @@ Map<String, dynamic> getPage(String id) {
       return videoCallPopUp;
     case 'videoCall':
       return videoCall;
+    case 'homeScreen':
+      return homeScreen;
 
     default:
       return {};

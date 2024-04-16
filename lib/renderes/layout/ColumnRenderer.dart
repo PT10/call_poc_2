@@ -19,21 +19,20 @@ class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
   Widget getWidget() {
     return Column(
         children: (widget.elementModel as ColumnLayout).children!.map((e) {
-      return Expanded(
-          child: Card(
-              child: Row(children: [
-        Expanded(
-            child: RendererFactory.getWidget(e.subType, e, context: context,
-                onAction: (type) {
-          if (type == "refresh") {
-            setState(() {});
-          }
+      Widget? w = RendererFactory.getWidget(e.subType, e, context: context,
+          onAction: (type) {
+        if (type == "refresh") {
+          setState(() {});
+        }
 
-          if (widget.onAction != null) {
-            widget.onAction!(type);
-          }
-        }, onPollFinished: widget.onPollFinished))
-      ])));
+        if (widget.onAction != null) {
+          widget.onAction!(type);
+        }
+      }, onPollFinished: widget.onPollFinished);
+      if (w == null) {
+        return Container();
+      }
+      return Expanded(child: Card(child: Row(children: [Expanded(child: w)])));
     }).toList());
   }
 }

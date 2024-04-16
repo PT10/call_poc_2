@@ -4,6 +4,7 @@ import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/pages/httpUtils.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
+import 'package:call_poc_2/views/homeScreen.dart';
 import 'package:call_poc_2/views/loginFlow.dart';
 import 'package:call_poc_2/views/patientFlow.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    BaseModel model = BaseModel.fromJson(login);
+    BaseModel model = BaseModel.fromJson(homeScreen);
     DataModel d = DataModel({
       //"patient_id": "65c9f89d031272e866295a9a",
       "latitude": "18.577954759165255",
@@ -47,15 +48,12 @@ class _LoginPageState extends State<LoginPage> {
 
     return MultiProvider(
         providers: [ChangeNotifierProvider<DataModel>.value(value: d)],
-        builder: (context, child) => Scaffold(
-            appBar: AppBar(
-              title: const Text("Login"),
-            ),
-            body: RendererFactory.getWidget(model.subType, model,
-                context: context,
-                onAction:
-                    (_) {}) //ElementRenderer(model.subType, model, getCmp: (_) {}),
-            ));
+        builder: (context, child) => RendererFactory.getWidget(
+            model.subType, model,
+            context: context,
+            onAction:
+                (_) {}) //ElementRenderer(model.subType, model, getCmp: (_) {}),
+        );
 
     // return ChangeNotifierProvider<DataModel>(
     //     create: (context) => DataModel(model.data),

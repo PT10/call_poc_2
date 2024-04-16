@@ -9,7 +9,8 @@ var login = {
       "value": "0",
       "values": [
         {"id": "0", "name": "Patient"},
-        {"id": "1", "name": "Doctor"}
+        {"id": "1", "name": "Doctor"},
+        {"id": "2", "name": "Conceirge"}
       ],
       "id": "userType",
       "action": [
@@ -86,6 +87,27 @@ var login = {
             }
           ]
         },
+        {
+          "type": "field",
+          "condition": {"var": "userType", "op": "eq", "val": "1"},
+          "subType": "submit",
+          "buttonText": "Sign in (Concierge)",
+          "submitAction": {
+            "api": "__SERVER__/doctor_controller/login",
+            "params": {
+              "email": "__val__",
+              "password": "__val__",
+              "login_type": "0"
+            }
+          },
+          "action": [
+            {
+              "type": "navigateFresh",
+              "data": ["patient_id", "latitude", "longitude"],
+              "pageId": "conciergeHomeScreen"
+            }
+          ]
+        },
       ]
     }
   ]
@@ -99,19 +121,136 @@ var otpSignInPage = {
       "type": "field",
       "subType": "text",
       "initialText": "",
-      "hintText": "Phone number",
-      "id": "phone"
+      "hintText": "Mobile number",
+      "id": "phone_number"
+    },
+  ],
+  "actions": [
+    {
+      "type": "field",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "1"},
+      "buttonText": "Sign in",
+      "submitAction": {
+        "api": "__SERVER__/doctor_controller/login_by_otp",
+        "params": {"phone_number": "__val__", "login_type": "0"}
+      },
+      "action": [
+        {
+          "type": "navigate",
+          "data": [
+            "phone_number",
+            {"newKey": "doctor_id", "oldKey": "id"},
+          ],
+          "pageId": "enterOtpPage"
+        }
+      ]
     },
     {
       "type": "field",
-      "subType": "textButton",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "0"},
       "buttonText": "Sign in",
       "submitAction": {
-        "api": "__SERVER__/symptom_controller/list2",
-        "params": {"emergency_type": "1", "accidental_type": "0"}
+        "api": "__SERVER__/patient_controller/login_by_otp",
+        "params": {"phone_number": "__val__", "login_type": "0"}
       },
       "action": [
-        {"type": "navigate", "data": [], "pageId": "otpSignInPage"}
+        {
+          "type": "navigate",
+          "data": [
+            "phone_number",
+            {"newKey": "patient_id", "oldKey": "id"}
+          ],
+          "pageId": "enterOtpPage"
+        }
+      ]
+    },
+    {
+      "type": "field",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "2"},
+      "buttonText": "Sign in",
+      "submitAction": {
+        "api": "__SERVER__/conceirge_controller/login_by_otp",
+        "params": {"phone_number": "__val__", "login_type": "0"}
+      },
+      "action": [
+        {
+          "type": "navigate",
+          "data": [
+            "phone_number",
+            {"newKey": "patient_id", "oldKey": "id"}
+          ],
+          "pageId": "enterOtpPage"
+        }
+      ]
+    },
+  ]
+};
+
+var enterOtpPage = {
+  "type": "layout",
+  "subType": "form",
+  "children": [
+    {
+      "type": "field",
+      "subType": "text",
+      "initialText": "",
+      "hintText": "Enter OTP",
+      "id": "otp"
+    },
+  ],
+  "actions": [
+    {
+      "type": "field",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "1"},
+      "buttonText": "Sign in",
+      "submitAction": {
+        "api": "__SERVER__/doctor_controller/verify_otp",
+        "params": {"phone_number": "__val__", "otp": "__val__", "type_otp": "1"}
+      },
+      "action": [
+        {"type": "navigate", "data": [], "pageId": "homeScreen"}
+      ]
+    },
+    {
+      "type": "field",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "0"},
+      "buttonText": "Sign in",
+      "submitAction": {
+        "api": "__SERVER__/patient_controller/verify_otp",
+        "params": {"phone_number": "__val__", "otp": "__val__", "type_otp": "1"}
+      },
+      "action": [
+        {
+          "type": "navigateFresh",
+          "data": [
+            "patient_id",
+            {"latitude": "18.577954759165255"},
+            {"longitude": "73.76560389261459"}
+          ],
+          "pageId": "homeScreen"
+        }
+      ]
+    },
+    {
+      "type": "field",
+      "subType": "submit",
+      "condition": {"var": "userType", "op": "eq", "val": "2"},
+      "buttonText": "Sign in",
+      "submitAction": {
+        "api": "__SERVER__/concierge_controller/verify_otp",
+        "params": {"phone_number": "__val__", "otp": "__val__", "type_otp": "1"}
+      },
+      "action": [
+        {
+          "type": "navigate",
+          "data": ["patient_id"],
+          "pageId": "homeScreen"
+        }
       ]
     },
   ]

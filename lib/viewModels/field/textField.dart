@@ -6,7 +6,11 @@ class TextFieldCustom extends FieldBase {
   bool obscure;
 
   TextFieldCustom(super.type, super.subType, this.id,
-      {this.label, this.hintText, this.initialText, this.obscure = false});
+      {this.label,
+      this.hintText,
+      this.initialText,
+      this.obscure = false,
+      super.condition});
 
   @override
   factory TextFieldCustom.fromJson(Map<String, dynamic> json) {
@@ -14,6 +18,7 @@ class TextFieldCustom extends FieldBase {
         label: json["label"],
         obscure: json["obscure"] ?? false,
         hintText: json["hintText"],
-        initialText: json["initialText"]);
+        initialText: json["initialText"],
+        condition: json["condition"]);
   }
 }

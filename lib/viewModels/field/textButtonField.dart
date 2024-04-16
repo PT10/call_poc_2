@@ -10,15 +10,13 @@ import 'package:provider/provider.dart';
 class TextButtonField extends FieldBase {
   String? iconUrl, buttonText, buttonTextFieldInData;
 
-  TextButtonField(
-    super.type,
-    super.subType, {
-    this.iconUrl,
-    this.buttonText,
-    this.buttonTextFieldInData,
-    super.action,
-    super.initAction,
-  });
+  TextButtonField(super.type, super.subType,
+      {this.iconUrl,
+      this.buttonText,
+      this.buttonTextFieldInData,
+      super.action,
+      super.initAction,
+      super.condition});
 
   @override
   factory TextButtonField.fromJson(Map<String, dynamic> json) {
@@ -35,6 +33,7 @@ class TextButtonField extends FieldBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

@@ -8,17 +8,14 @@ class DropDownField extends FieldBase {
   final List<Map<String, dynamic>> values;
   final String? value;
 
-  DropDownField(
-    super.type,
-    super.subType,
-    this.id, {
-    this.values = const [],
-    this.value,
-    this.buttonText,
-    this.buttonTextFieldInData,
-    super.action,
-    super.initAction,
-  });
+  DropDownField(super.type, super.subType, this.id,
+      {this.values = const [],
+      this.value,
+      this.buttonText,
+      this.buttonTextFieldInData,
+      super.action,
+      super.initAction,
+      super.condition});
 
   @override
   factory DropDownField.fromJson(Map<String, dynamic> json) {
@@ -35,6 +32,7 @@ class DropDownField extends FieldBase {
         initAction: json.containsKey("initAction")
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
-            : null);
+            : null,
+        condition: json["condition"]);
   }
 }

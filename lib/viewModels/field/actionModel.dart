@@ -58,7 +58,9 @@ class ActionModel {
     Map<String, dynamic> myData = {};
     data?.forEach((element) {
       if (element is Map<String, dynamic>) {
-        myData![element["newKey"]] = componentData.data[element["oldKey"]];
+        if (element.containsKey("newKey") && element.containsKey("oldKey")) {
+          myData![element["newKey"]] = componentData.data[element["oldKey"]];
+        }
       } else {
         myData![element] = componentData.data[element];
       }
@@ -66,34 +68,40 @@ class ActionModel {
 
     switch (type) {
       case "navigate":
+        Widget w = ChangeNotifierProvider<DataModel>(
+            create: (_) => DataModel(myData),
+            builder: (ctx, child) => RendererFactory.getWidget(
+                  model.subType,
+                  model,
+                  context: context,
+                ));
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: Text(model.title ?? ''),
-              ),
-              body: ChangeNotifierProvider<DataModel>(
-                  create: (_) => DataModel(myData),
-                  builder: (ctx, child) => RendererFactory.getWidget(
-                        model.subType,
-                        model,
-                        context: context,
-                      ))),
-        ));
-        break;
-      case "navigateFresh":
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => Scaffold(
+          builder: (context) => model.subType == 'scaffold'
+              ? w
+              : Scaffold(
                   appBar: AppBar(
                     title: Text(model.title ?? ''),
                   ),
-                  body: ChangeNotifierProvider<DataModel>(
-                      create: (_) => DataModel(myData),
-                      builder: (ctx, child) => RendererFactory.getWidget(
-                            model.subType,
-                            model,
-                            context: context,
-                          ))),
+                  body: w),
+        ));
+        break;
+      case "navigateFresh":
+        Widget w = ChangeNotifierProvider<DataModel>(
+            create: (_) => DataModel(myData),
+            builder: (ctx, child) => RendererFactory.getWidget(
+                  model.subType,
+                  model,
+                  context: context,
+                ));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => model.subType == 'scaffold'
+                  ? w
+                  : Scaffold(
+                      appBar: AppBar(
+                        title: Text(model.title ?? ''),
+                      ),
+                      body: w),
             ),
             (Route<dynamic> route) => false);
         break;

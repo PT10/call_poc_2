@@ -5,7 +5,9 @@ import 'package:call_poc_2/viewModels/layout/gridLayout.dart';
 import 'package:call_poc_2/viewModels/layout/listLayout.dart';
 import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
+import 'package:call_poc_2/viewModels/layout/scaffoldLayout.dart';
 import 'package:call_poc_2/viewModels/layout/stackLayout.dart';
+import 'package:call_poc_2/viewModels/utils.dart';
 
 abstract class LayoutBase extends BaseModel {
   String? title;
@@ -14,6 +16,8 @@ abstract class LayoutBase extends BaseModel {
 
   factory LayoutBase.fromJson(Map<String, dynamic> json) {
     switch (json["subType"]) {
+      case "scaffold":
+        return ScaffoldLayout.fromJson(json);
       case "column":
         return ColumnLayout.fromJson(json);
       case "row":
@@ -28,6 +32,11 @@ abstract class LayoutBase extends BaseModel {
         return PopupLayout.fromJson(json);
       case "form":
         return FormLayout.fromJson(json);
+      case "custom":
+        String page = json["pageId"];
+        LayoutBase baseModel = LayoutBase.fromJson(getPage(page));
+        baseModel.condition = json["condition"];
+        return baseModel;
       default:
         return ColumnLayout.fromJson(json);
     }
