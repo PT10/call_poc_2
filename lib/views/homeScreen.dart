@@ -49,7 +49,7 @@ var homeScreen = {
               "patient_id": "__val__",
             },
             "onSuccess": {
-              "action": {"type": "navigate", "pageId": "login", "data": []}
+              "action": {"type": "navigateFresh", "pageId": "login", "data": []}
             },
             "onFailure": {}
           },
@@ -69,7 +69,7 @@ var homeScreen = {
               "doctor_id": "__val__",
             }
           },
-          {"type": "navigate", "pageId": "login", "data": []},
+          {"type": "navigateFresh", "pageId": "login", "data": []},
         ]
       },
       {
@@ -86,7 +86,7 @@ var homeScreen = {
               "patient_id": "__val__",
             }
           },
-          {"type": "navigate", "pageId": "login", "data": []},
+          {"type": "navigateFresh", "pageId": "login", "data": []},
         ]
       },
     ]

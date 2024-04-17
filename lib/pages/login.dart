@@ -27,11 +27,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     fcmFuture = FirebaseMessaging.instance.getToken();
+    fcmFuture.then((value) => fcmId = value);
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     deviceFuture = Platform.isIOS ? deviceInfo.iosInfo : deviceInfo.androidInfo;
+    deviceFuture.then((value) {
+      if (Platform.isAndroid) {
+        deviceId = (value as AndroidDeviceInfo).id;
+      } else if (Platform.isIOS) {
+        deviceId = (value as IosDeviceInfo).identifierForVendor;
+      }
+    });
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       fcmId = fcmToken;
-      updateTokenDeviceLogin();
+      //updateTokenDeviceLogin();
     }).onError((err) {});
     updateTokenDeviceLogin();
     super.initState();
@@ -131,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   updateTokenDeviceLogin() {
-    Map<String, String> params = {};
+    /*  Map<String, String> params = {};
     params["token"] = fcmId ?? '';
     params["user_id"] = loginType == 'pat' ? patientID : docId;
     params["type"] = loginType == 'pat' ? "0" : "1";
@@ -140,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
     params["latitude"] = "18.577905476265904";
     params["longtude"] = "73.76547982075654";
     String url = baseUrl + "notification_controller/subscribe";
-    HttpUtils().post(url, params);
+    HttpUtils().post(url, params); */
   }
 
   showProgressCircle() {

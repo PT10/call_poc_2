@@ -212,7 +212,7 @@ var enterOtpPage = {
         "params": {"phone_number": "__val__", "otp": "__val__", "type_otp": "1"}
       },
       "action": [
-        {"type": "navigate", "data": [], "pageId": "homeScreen"}
+        {"type": "navigateFresh", "data": [], "pageId": "homeScreen"}
       ]
     },
     {
@@ -247,7 +247,7 @@ var enterOtpPage = {
       },
       "action": [
         {
-          "type": "navigate",
+          "type": "navigateFresh",
           "data": ["patient_id"],
           "pageId": "homeScreen"
         }

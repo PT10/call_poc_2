@@ -1,6 +1,19 @@
 var patientHomeScreen = {
   "type": "layout",
   "subType": "column",
+  "initAction": [
+    {
+      "api": "__SERVER__/notification_controller/subscribe",
+      "mode": "async",
+      "params": {
+        "token": "__FCM_TOKEN__",
+        "device_type": "0",
+        "mobile_device_id": "__DEVICE_ID__",
+        "user_id": {"oldKey": "patient_id", "value": "__val__"},
+        "type": {"oldKey": "userType", "value": "__val__"},
+      }
+    }
+  ],
   "children": [
     {
       "type": "field",

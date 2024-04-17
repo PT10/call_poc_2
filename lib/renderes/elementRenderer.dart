@@ -32,6 +32,9 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
   void initState() {
     if (widget.elementModel.initAction != null) {
       _performInitAction();
+      if (widget.elementModel.initAction!.initActions[0].mode == "async") {
+        loadingCompleted = true;
+      }
     } else {
       loadingCompleted = true;
     }

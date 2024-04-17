@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/pages/httpUtils.dart';
+import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -90,10 +89,22 @@ class InitActionModel {
         initActions[i].params[key] = Uuid().v4().toString();
         return;
       }
+      if (initActions[i].params[key] == "__FCM_TOKEN__") {
+        initActions[i].params[key] = fcmId;
+        return;
+      }
+      if (initActions[i].params[key] == "__DEVICE_ID__") {
+        initActions[i].params[key] = deviceId;
+        return;
+      }
       if (initActions[i].params[key] is Map<String, dynamic>) {
         if (data!.containsKey(initActions[i].params[key]["oldKey"])) {
           initActions[i].params[key] =
               data[initActions[i].params[key]["oldKey"]];
+        } else if (globalVariables
+            .containsKey(initActions[i].params[key]["oldKey"])) {
+          initActions[i].params[key] =
+              globalVariables[initActions[i].params[key]["oldKey"]];
         }
       } else {
         if (data!.containsKey(key)) {

@@ -42,14 +42,16 @@ class NavigateFreshAction extends ActionBase {
               model,
               context: context,
             ));
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => model.subType == 'scaffold'
-          ? w
-          : Scaffold(
-              appBar: AppBar(
-                title: Text(model.title ?? ''),
-              ),
-              body: w),
-    ));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => model.subType == 'scaffold'
+              ? w
+              : Scaffold(
+                  appBar: AppBar(
+                    title: Text(model.title ?? ''),
+                  ),
+                  body: w),
+        ),
+        (_) => false);
   }
 }
