@@ -1,16 +1,13 @@
-import 'dart:convert';
-
+import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
-import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/field/submitButtonField.dart';
-import 'package:call_poc_2/viewModels/field/textButtonField.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubmitButtonRenderer extends ElementRenderer {
-  final Function(InitActionModel, List<ActionModel>?) onSubmitted;
+  final Function(InitActionModel, List<ActionBase>?) onSubmitted;
   const SubmitButtonRenderer(super.type, super.elementModel, this.onSubmitted,
       {required super.getCmp,
       super.initAction,

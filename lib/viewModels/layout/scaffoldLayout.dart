@@ -1,6 +1,5 @@
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
-import 'package:call_poc_2/viewModels/field/fieldBase.dart';
 import 'package:call_poc_2/viewModels/field/textButtonField.dart';
 import 'package:call_poc_2/viewModels/layout/appBarLayout.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';

@@ -1,11 +1,6 @@
-import 'package:call_poc_2/viewModels/base/dataModel.dart';
-import 'package:call_poc_2/viewModels/field/actionModel.dart';
+import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
-import 'package:call_poc_2/renderes/elementRenderer.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
 class TextButtonField extends FieldBase {
   String? iconUrl, buttonText, buttonTextFieldInData;
@@ -26,8 +21,7 @@ class TextButtonField extends FieldBase {
         buttonTextFieldInData: json["buttonTextFieldInData"],
         action: json.containsKey("action")
             ? (json["action"] as List)
-                .map((e) =>
-                    ActionModel.fromJson(e as Map<String, dynamic>, null))
+                .map((e) => ActionBase.fromJson(e as Map<String, dynamic>))
                 .toList()
             : null,
         initAction: json.containsKey("initAction")

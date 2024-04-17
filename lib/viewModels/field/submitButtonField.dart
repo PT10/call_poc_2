@@ -1,4 +1,4 @@
-import 'package:call_poc_2/viewModels/field/actionModel.dart';
+import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:call_poc_2/viewModels/field/fieldBase.dart';
 
@@ -26,8 +26,7 @@ class SubmitButtonField extends FieldBase {
         buttonTextFieldInData: json["buttonTextFieldInData"],
         action: json.containsKey("action")
             ? (json["action"] as List)
-                .map((e) =>
-                    ActionModel.fromJson(e as Map<String, dynamic>, null))
+                .map((e) => ActionBase.fromJson(e as Map<String, dynamic>))
                 .toList()
             : null,
         initAction: json.containsKey("initAction")

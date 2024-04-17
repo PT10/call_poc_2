@@ -14,16 +14,16 @@ import 'package:call_poc_2/renderes/layout/RowRenderer.dart';
 import 'package:call_poc_2/renderes/layout/ScaffoldRenderer.dart';
 import 'package:call_poc_2/renderes/layout/StackRenderer.dart';
 import 'package:call_poc_2/settings.dart';
+import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
-import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:flutter/material.dart';
 
 class RendererFactory {
   static dynamic getWidget(String type, BaseModel elementModel,
       {BuildContext? context,
       Function(String)? onAction,
-      Function(InitActionModel, List<ActionModel>?)? onFormSubmit,
+      Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
       Function? onPollFinished}) {
     if (elementModel.condition != null) {
       var variableName = elementModel.condition!["var"];
@@ -73,7 +73,7 @@ class RendererFactory {
           /* onAction: () {
             Navigator.pop(context!);
           }, */
-          onPollFinished: (ActionModel? action) {
+          onPollFinished: (ActionBase? action) {
             Navigator.pop(context!);
             if (action != null) {
               //action.setData(data, context);

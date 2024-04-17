@@ -25,7 +25,7 @@ var patientHomeScreen = {
           "iconUrl": "",
           "buttonText": "Ambulance",
           "action": [
-            {"type": "launch_app", "data": [], "appId": ""}
+            {"type": "navigate", "data": [], "pageId": "patientHomeScreen"}
           ]
         },
         {
@@ -34,7 +34,7 @@ var patientHomeScreen = {
           "iconUrl": "",
           "buttonText": "Home Visit",
           "action": [
-            {"type": "popup", "cmpId": ""}
+            {"type": "navigate", "data": [], "pageId": "patientHomeScreen"}
           ]
         }
       ]
@@ -45,7 +45,7 @@ var patientHomeScreen = {
       "iconUrl": "",
       "buttonText": "SOS",
       "action": [
-        {"type": "popup", "componentId": ""}
+        {"type": "navigate", "data": [], "pageId": "patientHomeScreen"}
       ]
     },
   ]

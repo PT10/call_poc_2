@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    BaseModel model = BaseModel.fromJson(homeScreen);
+    BaseModel model = BaseModel.fromJson(login);
     DataModel d = DataModel({
       //"patient_id": "65c9f89d031272e866295a9a",
       "latitude": "18.577954759165255",

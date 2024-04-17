@@ -47,9 +47,12 @@ var homeScreen = {
             "api": "__SERVER__/patient_controller/logout",
             "params": {
               "patient_id": "__val__",
-            }
+            },
+            "onSuccess": {
+              "action": {"type": "navigate", "pageId": "login", "data": []}
+            },
+            "onFailure": {}
           },
-          {"type": "navigate", "pageId": "login", "data": []},
         ]
       },
       {

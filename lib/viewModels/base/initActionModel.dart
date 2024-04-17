@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/pages/httpUtils.dart';
+import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
-import 'package:call_poc_2/viewModels/field/actionModel.dart';
 import 'package:call_poc_2/viewModels/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,7 @@ class InitActionModel {
             mode: element["mode"],
             breakCondition: element["breakCondition"],
             action: element.containsKey("action")
-                ? ActionModel.fromJson(element["action"], null)
+                ? ActionBase.fromJson(element["action"])
                 : null));
       },
     );
@@ -125,7 +125,7 @@ class InitAction {
   final Map<String, dynamic> params;
   final String? mode;
   final Map<String, dynamic>? breakCondition;
-  final ActionModel? action;
+  final ActionBase? action;
 
   InitAction(this.api, this.params,
       {this.mode, this.action, this.breakCondition});
