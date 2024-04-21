@@ -2,8 +2,6 @@ var homeScreen = {
   "type": "layout",
   "subType": "scaffold",
   "appBar": {
-    "type": "layout",
-    "subType": "appBar",
     "title": "Namaste Health",
     "menu": [
       {

@@ -10,13 +10,17 @@ class AppBarLayout extends LayoutBase {
       {this.title, this.actions, this.menu});
 
   factory AppBarLayout.fromJson(Map<String, dynamic> json) {
-    return AppBarLayout(json["type"], json["subType"],
+    return AppBarLayout('layout', "appBar",
         title: json["title"],
-        actions: (json["actions"] as List)
-            .map((e) => FieldBase.fromJson(e))
-            .toList(),
-        menu: (json["menu"] as List)
-            .map((e) => TextButtonField.fromJson(e))
-            .toList());
+        actions: json.containsKey("actions")
+            ? (json["actions"] as List)
+                .map((e) => FieldBase.fromJson(e))
+                .toList()
+            : null,
+        menu: json.containsKey("menu")
+            ? (json["menu"] as List)
+                .map((e) => TextButtonField.fromJson(e))
+                .toList()
+            : null);
   }
 }

@@ -172,7 +172,7 @@ var otpSignInPage = {
       "condition": {"var": "userType", "op": "eq", "val": "2"},
       "buttonText": "Sign in",
       "submitAction": {
-        "api": "__SERVER__/conceirge_controller/login_by_otp",
+        "api": "__SERVER__/concierge_controller/login_by_otp",
         "params": {"phone_number": "__val__", "login_type": "0"}
       },
       "action": [
@@ -248,8 +248,12 @@ var enterOtpPage = {
       "action": [
         {
           "type": "navigateFresh",
-          "data": ["patient_id"],
-          "pageId": "homeScreen"
+          "data": [
+            "patient_id",
+            {"latitude": "18.577954759165255"},
+            {"longitude": "73.76560389261459"}
+          ],
+          "pageId": "conciergeScaffold"
         }
       ]
     },

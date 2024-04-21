@@ -9,6 +9,7 @@ import 'package:call_poc_2/views/loginFlow.dart';
 import 'package:call_poc_2/views/patientFlow.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "../settings.dart";
@@ -21,16 +22,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late Future<String?> fcmFuture;
-  late Future<BaseDeviceInfo> deviceFuture;
+  Future<String?>? fcmFuture;
+  Future<BaseDeviceInfo>? deviceFuture;
 
   @override
   void initState() {
     fcmFuture = FirebaseMessaging.instance.getToken();
-    fcmFuture.then((value) => fcmId = value);
+    fcmFuture?.then((value) => fcmId = value);
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    deviceFuture = Platform.isIOS ? deviceInfo.iosInfo : deviceInfo.androidInfo;
-    deviceFuture.then((value) {
+    if (!kIsWeb) {
+      deviceFuture = Platform.isIOS
+          ? deviceInfo.iosInfo
+          : Platform.isAndroid
+              ? deviceInfo.androidInfo
+              : null;
+    }
+    deviceFuture?.then((value) {
       if (Platform.isAndroid) {
         deviceId = (value as AndroidDeviceInfo).id;
       } else if (Platform.isIOS) {
