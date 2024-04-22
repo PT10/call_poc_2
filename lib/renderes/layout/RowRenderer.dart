@@ -25,13 +25,14 @@ class _RowRendererState extends ElementRendererState<RowRenderer> {
         child: Row(
             children: columnLayout.children!.map((e) {
       return Expanded(
+          flex: e.flex ?? 1,
           child: Column(children: [
-        Expanded(
-            child: RendererFactory.getWidget(e.subType, e,
-                context: context,
-                onAction: widget.onAction,
-                onPollFinished: widget.onPollFinished))
-      ]));
+            Expanded(
+                child: RendererFactory.getWidget(e.subType, e,
+                    context: context,
+                    onAction: widget.onAction,
+                    onPollFinished: widget.onPollFinished))
+          ]));
     }).toList()));
   }
 }

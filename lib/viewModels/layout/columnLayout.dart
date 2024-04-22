@@ -13,7 +13,11 @@ class ColumnLayout extends LayoutBase {
   final List<BaseModel>? children;
 
   ColumnLayout(super.type, super.subType, this.children,
-      {super.title, super.initAction, super.condition});
+      {super.title,
+      super.initAction,
+      super.condition,
+      super.customDataModel,
+      super.useCustomDataModel});
 
   factory ColumnLayout.fromJson(Map<String, dynamic> json) {
     return ColumnLayout(
@@ -29,6 +33,7 @@ class ColumnLayout extends LayoutBase {
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null,
-        condition: json["condition"]);
+        condition: json["condition"],
+        customDataModel: json["customDataModel"]);
   }
 }

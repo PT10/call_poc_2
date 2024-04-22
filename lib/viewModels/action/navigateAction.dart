@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/viewModels/action/actionBase.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
 import 'package:call_poc_2/viewModels/utils.dart';
@@ -20,6 +21,7 @@ class NavigateAction extends ActionBase {
   @override
   void perform(BuildContext context, {Function? actionCallBack}) {
     DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    //CustomDataModel? customeModel;
     LayoutBase model = LayoutBase.fromJson(getPage(pageId!));
 
     Map<String, dynamic> myData = {};
@@ -32,6 +34,21 @@ class NavigateAction extends ActionBase {
         myData![element] = componentData.data[element];
       }
     });
+
+    // if (model.customDataModel != null) {
+    //   customeModel = CustomDataModel(model.customDataModel!);
+    // }
+
+    /* Widget w = MultiProvider(
+        providers: skipNulls([
+          ChangeNotifierProvider<DataModel>(create: (_) => DataModel(myData)),
+          customeModel != null ?ChangeNotifierProvider<CustomDataModel>.value(value: customeModel) : null
+        ]),
+        builder: (ctx, child) => RendererFactory.getWidget(
+              model.subType,
+              model,
+              context: context,
+            )); */
 
     Widget w = ChangeNotifierProvider<DataModel>(
         create: (_) => DataModel(myData),

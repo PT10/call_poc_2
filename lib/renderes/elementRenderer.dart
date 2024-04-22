@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
+import 'package:call_poc_2/viewModels/layout/layoutBase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -74,6 +76,14 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
   @override
   Widget build(BuildContext context) {
     if (loadingCompleted) {
+      // IF custom data model is set on the layout, initialise the provider
+      if (widget.elementModel is LayoutBase &&
+          (widget.elementModel as LayoutBase).customDataModel != null) {
+        return ChangeNotifierProvider<CustomDataModel>(
+            create: (_) => CustomDataModel(
+                (widget.elementModel as LayoutBase).customDataModel),
+            builder: (ctx, child) => getWidget());
+      }
       return getWidget();
     } else if (errorMsg != null) {
       return const Center(

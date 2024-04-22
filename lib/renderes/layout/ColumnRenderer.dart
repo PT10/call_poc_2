@@ -32,7 +32,9 @@ class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
       if (w == null) {
         return Container();
       }
-      return Expanded(child: Card(child: Row(children: [Expanded(child: w)])));
+      return Expanded(
+          flex: e.flex ?? 1,
+          child: Card(child: Row(children: [Expanded(child: w)])));
     }).toList());
   }
 }

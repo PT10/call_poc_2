@@ -9,15 +9,21 @@ abstract class BaseModel {
   final String type, subType;
   final InitActionModel? initAction;
   Map<String, dynamic>? condition;
+  int? flex;
   //Map<String, dynamic> data = {};
 
-  BaseModel(this.type, this.subType, {this.initAction, this.condition});
+  BaseModel(
+    this.type,
+    this.subType, {
+    this.initAction,
+    this.condition,
+  });
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
     if (json["type"] == "layout") {
-      return LayoutBase.fromJson(json);
+      return LayoutBase.fromJson(json)..flex = json["flex"];
     } else if (json["type"] == "field") {
-      return FieldBase.fromJson(json);
+      return FieldBase.fromJson(json)..flex = json["flex"];
     }
     return LayoutBase.fromJson(json);
   }

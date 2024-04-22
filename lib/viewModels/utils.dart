@@ -36,6 +36,10 @@ Map<String, dynamic> getPage(String id) {
     case 'homeScreen':
       return homeScreen;
 
+    case 'searchContainer':
+      return searchContainer;
+    case 'selectedDoctorRenderer':
+      return selectedDoctorRenderer;
     case 'doctorSearchPage':
       return doctorSearchPage;
     case 'conciergeDoctorListItem':

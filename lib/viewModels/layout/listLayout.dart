@@ -15,13 +15,18 @@ import 'package:provider/provider.dart';
 class ListLayout extends LayoutBase {
   final List<BaseModel>? children;
   final IterativeItemModel? itemRendererModel;
+  final bool horizontal;
+  final String emptyText;
 
   ListLayout(super.type, super.subType,
       {this.children,
       this.itemRendererModel,
       super.title,
       super.initAction,
-      super.condition});
+      super.condition,
+      super.useCustomDataModel,
+      this.horizontal = false,
+      this.emptyText = "No Items to show"});
 
   factory ListLayout.fromJson(Map<String, dynamic> json) {
     return ListLayout(json["type"], json["subType"],
@@ -39,6 +44,9 @@ class ListLayout extends LayoutBase {
             ? InitActionModel.fromJson(
                 json["initAction"] as List<Map<String, dynamic>>)
             : null,
-        condition: json["condition"]);
+        condition: json["condition"],
+        useCustomDataModel: json["useCustomDataModel"] ?? false,
+        horizontal: json["horizontal"] ?? false,
+        emptyText: json["emptyText"] ?? "No items to show");
   }
 }

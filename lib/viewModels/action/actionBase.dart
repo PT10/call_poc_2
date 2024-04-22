@@ -1,5 +1,6 @@
 import 'package:call_poc_2/viewModels/action/apiAction.dart';
 import 'package:call_poc_2/viewModels/action/closeAction.dart';
+import 'package:call_poc_2/viewModels/action/customProviderUpdateAction.dart';
 import 'package:call_poc_2/viewModels/action/memoryUpdateAction.dart';
 import 'package:call_poc_2/viewModels/action/navigateAction.dart';
 import 'package:call_poc_2/viewModels/action/navigateFreshAction.dart';
@@ -25,6 +26,8 @@ abstract class ActionBase {
         return PopupAction.fromJson(json);
       case "memoryUpdate":
         return MemoryUpdateAction.fromJson(json);
+      case "customProviderUpdate":
+        return customProviderUpdate.fromJson(json);
       case "refresh":
         return RefreshAction.fromJson(json);
       case "close":

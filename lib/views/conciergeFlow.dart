@@ -3,7 +3,7 @@ var conciergeScaffold = {
   "subType": "scaffold",
   "appBar": {"title": "Namaste Health Concierge"},
   "children": [
-    {"type": "layout", "subType": "custom", "pageId": "conciergeHomeScreen"}
+    {"type": "layout", "subType": "page", "pageId": "conciergeHomeScreen"}
   ]
 };
 
@@ -41,12 +41,52 @@ var conciergeHomeScreen = {
                 "longitude",
                 "specialisation_id"
               ],
-              "pageId": "doctorSearchPage"
+              "pageId": "searchContainer"
             }
           ]
         },
       ]
     }
+  ]
+};
+
+var searchContainer = {
+  "type": "layout",
+  "subType": "column",
+  "customDataModel": "doctorSearchModel",
+  "children": [
+    {
+      "type": "layout",
+      "subType": "column",
+      "children": [
+        {"type": "field", "subType": "label", "label": "Selected doctors"},
+        {
+          "type": "layout",
+          "subType": "list",
+          "horizontal": true,
+          "useCustomDataModel": true,
+          "itemRenderer": {"pageId": "selectedDoctorRenderer"},
+          "emptyText": "No doctors added to the group",
+          "flex": 1
+        }
+      ],
+      "flex": 1
+    },
+    {
+      "type": "layout",
+      "subType": "page",
+      "pageId": "doctorSearchPage",
+      "flex": 5
+    }
+  ]
+};
+
+var selectedDoctorRenderer = {
+  "type": "field",
+  "subType": "tileButton",
+  "buttonTextFieldInData": "name",
+  "action": [
+    {"type": "customProviderUpdate", "idField": "_id"}
   ]
 };
 
@@ -110,6 +150,15 @@ var conciergeDoctorListItem = {
           "label": "Exp - ",
           "valueField": "experience"
         }
+      ]
+    },
+    {
+      "type": "field",
+      "subType": "iconButton",
+      "iconUrl": "video_icon",
+      "buttonText": "Add to Group",
+      "action": [
+        {"type": "customProviderUpdate", "idField": "_id"}
       ]
     }
   ]

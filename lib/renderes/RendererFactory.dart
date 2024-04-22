@@ -4,6 +4,7 @@ import 'package:call_poc_2/renderes/field/IconButtonRenderer.dart';
 import 'package:call_poc_2/renderes/field/LabelRenderer.dart';
 import 'package:call_poc_2/renderes/field/SubmitButtonRenderer.dart';
 import 'package:call_poc_2/renderes/field/TextRenderer.dart';
+import 'package:call_poc_2/renderes/field/TileButtonRenderer.dart';
 import 'package:call_poc_2/renderes/field/textButtonRenderer.dart';
 import 'package:call_poc_2/renderes/layout/ColumnRenderer.dart';
 import 'package:call_poc_2/renderes/layout/FormRenderer.dart';
@@ -97,6 +98,12 @@ class RendererFactory {
       case 'iconButton':
         return IconButtonRenderer(
           'iconButton',
+          elementModel,
+          getCmp: (_) {},
+        );
+      case 'tileButton':
+        return TileButtonRenderer(
+          'tileButton',
           elementModel,
           getCmp: (_) {},
         );

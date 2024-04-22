@@ -4,6 +4,7 @@ import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
 import 'package:call_poc_2/pages/httpUtils.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
+import 'package:call_poc_2/views/conciergeFlow.dart';
 import 'package:call_poc_2/views/homeScreen.dart';
 import 'package:call_poc_2/views/loginFlow.dart';
 import 'package:call_poc_2/views/patientFlow.dart';
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    BaseModel model = BaseModel.fromJson(login);
+    BaseModel model = BaseModel.fromJson(conciergeScaffold);
     DataModel d = DataModel({
       //"patient_id": "65c9f89d031272e866295a9a",
       "latitude": "18.577954759165255",

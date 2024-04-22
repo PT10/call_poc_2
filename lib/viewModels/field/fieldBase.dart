@@ -7,6 +7,7 @@ import 'package:call_poc_2/viewModels/field/labelField.dart';
 import 'package:call_poc_2/viewModels/field/submitButtonField.dart';
 import 'package:call_poc_2/viewModels/field/textButtonField.dart';
 import 'package:call_poc_2/viewModels/field/textField.dart';
+import 'package:call_poc_2/viewModels/field/tileButtonField.dart';
 
 abstract class FieldBase extends BaseModel {
   List<ActionBase>? action;
@@ -18,6 +19,8 @@ abstract class FieldBase extends BaseModel {
     switch (json["subType"]) {
       case "iconButton":
         return IconButtonField.fromJson(json);
+      case "tileButton":
+        return TileButtonField.fromJson(json);
       case "dropDown":
         return DropDownField.fromJson(json);
       case "textButton":
