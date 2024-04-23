@@ -10,10 +10,10 @@ import 'package:provider/provider.dart';
 class SubmitButtonRenderer extends ElementRenderer {
   final Function(InitActionModel, List<ActionBase>?) onSubmitted;
   const SubmitButtonRenderer(super.type, super.elementModel, this.onSubmitted,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
       super.onAction,
+      super.customDataModel,
       super.key});
 
   @override
@@ -23,7 +23,7 @@ class SubmitButtonRenderer extends ElementRenderer {
 class _SubmitButtonRendererState
     extends ElementRendererState<SubmitButtonRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     SubmitButtonField fieldModel = widget.elementModel as SubmitButtonField;
     return OutlinedButton(

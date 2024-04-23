@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 
 class TextButtonRenderer extends ElementRenderer {
   const TextButtonRenderer(super.type, super.layoutModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
       super.onAction,
+      super.customDataModel,
       super.key});
 
   @override
@@ -20,7 +20,7 @@ class TextButtonRenderer extends ElementRenderer {
 class _TextButtonRendererState
     extends ElementRendererState<TextButtonRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     TextButtonField fieldModel = widget.elementModel as TextButtonField;
     return TextButton(

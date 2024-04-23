@@ -13,14 +13,15 @@ abstract class ElementRenderer extends StatefulWidget {
   final String type;
   final InitActionModel? initAction;
   final BaseModel elementModel;
-  final Function(Map<String, dynamic>?) getCmp;
+  final CustomDataModel? customDataModel;
   final Function(String type)? onAction;
   final Function? onPollFinished;
+
   const ElementRenderer(this.type, this.elementModel,
-      {required this.getCmp,
-      this.initAction,
+      {this.initAction,
       this.onPollFinished,
       this.onAction,
+      this.customDataModel,
       super.key});
 
   @override
@@ -82,9 +83,9 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
         return ChangeNotifierProvider<CustomDataModel>(
             create: (_) => CustomDataModel(
                 (widget.elementModel as LayoutBase).customDataModel),
-            builder: (ctx, child) => _getWidget());
+            builder: (ctx, child) => getWidget());
       }
-      return _getWidget();
+      return getWidget();
     } else if (errorMsg != null) {
       return const Center(
         child: Text("error"),
@@ -96,41 +97,7 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
     }
   }
 
-  Widget _getWidget() {
-    if (widget.elementModel.consumeCustomDataModel ?? false) {
-      return Consumer<CustomDataModel?>(
-          builder: (context, currentCustomModel, child) {
-        if (widget.elementModel.condition != null &&
-            widget.elementModel.condition!["type"] == "customDataModel") {
-          DataModel componentData =
-              Provider.of<DataModel>(context, listen: false);
-
-          if (currentCustomModel != null) {
-            if (widget.elementModel.condition!["op"] == "contains") {
-              if (!currentCustomModel.contains(
-                  widget.elementModel.condition!["idField"],
-                  componentData
-                      .data[widget.elementModel.condition!["idField"]])) {
-                return Container();
-              }
-            } else if (widget.elementModel.condition!["op"] == "!contains") {
-              if (currentCustomModel.contains(
-                  widget.elementModel.condition!["idField"],
-                  componentData
-                      .data[widget.elementModel.condition!["idField"]])) {
-                return Container();
-              }
-            }
-          }
-        }
-        return getWidget(currentCustomModel);
-      });
-    }
-
-    return getWidget(null);
-  }
-
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     return Container(
       child: Text("Base class"),
     );

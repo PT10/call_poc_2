@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 
 class LabelRenderer extends ElementRenderer {
   const LabelRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -19,7 +19,7 @@ class LabelRenderer extends ElementRenderer {
 
 class _LabelRendererState extends ElementRendererState<LabelRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     LabelField fieldModel = widget.elementModel as LabelField;
     return Wrap(

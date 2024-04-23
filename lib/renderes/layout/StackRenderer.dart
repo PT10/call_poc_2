@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class StackRenderer extends ElementRenderer {
   const StackRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -17,22 +17,21 @@ class StackRenderer extends ElementRenderer {
 
 class _StackRendererState extends ElementRendererState<StackRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     StackLayout stackLayout = widget.elementModel as StackLayout;
     if (stackLayout.children == null) {
       return Container();
     }
     return Stack(
         children: stackLayout.children!.map((e) {
-      return Expanded(
-          child: Card(
-              child: Row(children: [
-        Expanded(
-            child: RendererFactory.getWidget(e.subType, e,
-                context: context,
-                onAction: widget.onAction,
-                onPollFinished: widget.onPollFinished))
-      ])));
+      Widget? w = RendererFactory.getWidget(e.subType, e,
+          context: context,
+          onAction: widget.onAction,
+          onPollFinished: widget.onPollFinished);
+      if (w == null) {
+        return Container();
+      }
+      return Expanded(child: Card(child: Row(children: [Expanded(child: w)])));
     }).toList());
   }
 }

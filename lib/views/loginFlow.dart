@@ -89,7 +89,7 @@ var login = {
         },
         {
           "type": "field",
-          "condition": {"var": "userType", "op": "eq", "val": "1"},
+          "condition": {"var": "userType", "op": "eq", "val": "2"},
           "subType": "submit",
           "buttonText": "Sign in (Concierge)",
           "submitAction": {

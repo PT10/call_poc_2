@@ -12,9 +12,9 @@ import 'package:provider/provider.dart';
 
 class FormRenderer extends ElementRenderer {
   const FormRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -24,60 +24,71 @@ class FormRenderer extends ElementRenderer {
 class _FormRendererState extends ElementRendererState<FormRenderer> {
   final _formKey = GlobalKey<FormBuilderState>();
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     return FormBuilder(
         key: _formKey,
         child: Column(children: [
+          Expanded(child: Column(children: _getFields())),
           Expanded(
               child: Column(
-                  children:
-                      (widget.elementModel as FormLayout).children!.map((e) {
-            return Expanded(
-                child: Card(
-                    child: Row(children: [
-              Expanded(
-                  child: RendererFactory.getWidget(e.subType, e,
-                      context: context, onAction: (type) {
-                if (type == 'refresh') {
-                  setState(() {});
-                }
-              }, onPollFinished: widget.onPollFinished))
-            ])));
-          }).toList())),
-          Expanded(
-              child: Column(
-            children: (widget.elementModel as FormLayout).actions!.map((e) {
-              Widget? w = RendererFactory.getWidget(e.subType, e,
-                  context: context, onAction: widget.onAction,
-                  onFormSubmit: (submitAction, action) {
-                // Add form data to datamodel
-                DataModel componentData =
-                    Provider.of<DataModel>(context, listen: false);
-                Map<String, dynamic> formData = {};
-                _formKey.currentState!.fields.forEach((key, value) {
-                  formData[key] = value.value;
-                });
-                componentData.setData(formData);
-
-                // Perform submit action
-                submitAction.perform(context).then((value) {
-                  // On response take next action
-                  if (action != null) {
-                    componentData.setData(json.decode(value.body));
-                    action.forEach((element) => element.perform(context,
-                        actionCallBack: widget.onAction));
-                  }
-                }).onError((error, stackTrace) {
-                  print(error);
-                });
-              }, onPollFinished: widget.onPollFinished);
-              if (w == null) {
-                return Container();
-              }
-              return Expanded(
-                  child: Card(child: Row(children: [Expanded(child: w)])));
-            }).toList(),
+            children: _getActions(),
           ))
         ]));
+  }
+
+  List<Widget> _getFields() {
+    List<Widget> children = [];
+    (widget.elementModel as FormLayout).children!.forEach((e) {
+      Widget? w = RendererFactory.getWidget(e.subType, e, context: context,
+          onAction: (type) {
+        if (type == 'refresh') {
+          setState(() {});
+        }
+      }, onPollFinished: widget.onPollFinished);
+      if (w == null) {
+        return;
+      }
+      children.add(
+          Expanded(child: Card(child: Row(children: [Expanded(child: w)]))));
+    });
+
+    return children;
+  }
+
+  List<Widget> _getActions() {
+    List<Widget> children = [];
+    (widget.elementModel as FormLayout).actions!.forEach((e) {
+      Widget? w = RendererFactory.getWidget(e.subType, e,
+          context: context,
+          onAction: widget.onAction, onFormSubmit: (submitAction, action) {
+        // Add form data to datamodel
+        DataModel componentData =
+            Provider.of<DataModel>(context, listen: false);
+        Map<String, dynamic> formData = {};
+        _formKey.currentState!.fields.forEach((key, value) {
+          formData[key] = value.value;
+        });
+        componentData.setData(formData);
+
+        // Perform submit action
+        submitAction.perform(context).then((value) {
+          // On response take next action
+          if (action != null) {
+            componentData.setData(json.decode(value.body));
+            action.forEach((element) =>
+                element.perform(context, actionCallBack: widget.onAction));
+          }
+        }).onError((error, stackTrace) {
+          print(error);
+        });
+      }, onPollFinished: widget.onPollFinished);
+      if (w == null) {
+        return;
+      }
+      children.add(
+          Expanded(child: Card(child: Row(children: [Expanded(child: w)]))));
+    });
+
+    return children;
   }
 }

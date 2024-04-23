@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 class GridRenderer extends ElementRenderer {
   const GridRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -20,7 +20,7 @@ class GridRenderer extends ElementRenderer {
 
 class _GridRendererState extends ElementRendererState<GridRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
     GridLayout grid = widget.elementModel as GridLayout;
     return Card(
@@ -38,9 +38,10 @@ class _GridRendererState extends ElementRendererState<GridRenderer> {
             builder: (ctx, w) {
               BaseModel e = grid.itemRendererModel!.createItem();
               return RendererFactory.getWidget(e.subType, e,
-                  context: context,
-                  onAction: widget.onAction,
-                  onPollFinished: widget.onPollFinished);
+                      context: context,
+                      onAction: widget.onAction,
+                      onPollFinished: widget.onPollFinished) ??
+                  Container();
             });
       },
     ));

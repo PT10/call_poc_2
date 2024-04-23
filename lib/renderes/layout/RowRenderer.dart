@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class RowRenderer extends ElementRenderer {
   const RowRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -17,7 +17,7 @@ class RowRenderer extends ElementRenderer {
 
 class _RowRendererState extends ElementRendererState<RowRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     RowLayout columnLayout = widget.elementModel as RowLayout;
     if (columnLayout.children == null) {
       return Container();
@@ -26,13 +26,14 @@ class _RowRendererState extends ElementRendererState<RowRenderer> {
         decoration: BoxDecoration(border: Border.all(color: Colors.purple)),
         child: Row(
             children: columnLayout.children!.map((e) {
-          Widget w = Column(children: [
-            Expanded(
-                child: RendererFactory.getWidget(e.subType, e,
-                    context: context,
-                    onAction: widget.onAction,
-                    onPollFinished: widget.onPollFinished))
-          ]);
+          Widget? w = RendererFactory.getWidget(e.subType, e,
+              context: context,
+              onAction: widget.onAction,
+              onPollFinished: widget.onPollFinished);
+          if (w == null) {
+            return Container();
+          }
+          w = Column(children: [Expanded(child: w)]);
           if (e.giveEqualFlex ?? true) {
             return Expanded(flex: e.flex ?? 1, child: w);
           }

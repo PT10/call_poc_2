@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 class TextRenderer extends ElementRenderer {
   const TextRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -20,7 +20,7 @@ class TextRenderer extends ElementRenderer {
 
 class _TextRendererState extends ElementRendererState<TextRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     TextFieldCustom fieldModel = widget.elementModel as TextFieldCustom;
     return FormBuilderTextField(
       key: GlobalKey(),

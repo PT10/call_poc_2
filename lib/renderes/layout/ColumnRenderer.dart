@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class ColumnRenderer extends ElementRenderer {
   const ColumnRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -17,10 +17,9 @@ class ColumnRenderer extends ElementRenderer {
 
 class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
-    return Card(
-        child: Column(
-            children: (widget.elementModel as ColumnLayout).children!.map((e) {
+  Widget getWidget() {
+    List<Widget> children = [];
+    (widget.elementModel as ColumnLayout).children!.forEach((e) {
       Widget? w = RendererFactory.getWidget(e.subType, e, context: context,
           onAction: (type) {
         if (type == "refresh") {
@@ -32,15 +31,16 @@ class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
         }
       }, onPollFinished: widget.onPollFinished);
       if (w == null) {
-        return Container();
+        return;
       }
       w = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [Expanded(child: w)]);
       if (e.giveEqualFlex ?? true) {
-        return Expanded(flex: e.flex ?? 1, child: w);
+        return children.add(Expanded(flex: e.flex ?? 1, child: w));
       }
-      return w;
-    }).toList()));
+      return children.add(w);
+    });
+    return Card(child: Column(children: children));
   }
 }

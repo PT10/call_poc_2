@@ -54,11 +54,13 @@ class NavigateAction extends ActionBase {
 
     Widget w = ChangeNotifierProvider<DataModel>(
         create: (_) => DataModel(myData),
-        builder: (ctx, child) => RendererFactory.getWidget(
+        builder: (ctx, child) =>
+            RendererFactory.getWidget(
               model.subType,
               model,
               context: context,
-            ));
+            ) ??
+            Container());
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => model.subType == 'scaffold'
           ? w

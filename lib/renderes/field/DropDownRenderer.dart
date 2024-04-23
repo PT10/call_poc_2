@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 class DropDownRenderer extends ElementRenderer {
   const DropDownRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
       super.onAction,
+      super.customDataModel,
       super.key});
 
   @override
@@ -27,7 +27,7 @@ class _DropDownRendererState extends ElementRendererState<DropDownRenderer> {
   }
 
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     //DataModel model = Provider.of<DataModel>(context, listen: false);
 
     return DropdownButtonFormField<String>(

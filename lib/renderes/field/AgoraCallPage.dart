@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 
 class AgoraCallPage extends ElementRenderer {
   const AgoraCallPage(super.type, super.layoutModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -19,7 +19,7 @@ class AgoraCallPage extends ElementRenderer {
 
 class _AgoraCallPageState extends ElementRendererState<AgoraCallPage> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel d = Provider.of<DataModel>(context, listen: false);
     return AgoraCall(
         channelName: d.data["channelName"], role: ClientRole.Broadcaster);

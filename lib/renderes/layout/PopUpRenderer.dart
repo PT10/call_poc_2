@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 class PopUpRenderer extends ElementRenderer {
   const PopUpRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
       super.onAction,
+      super.customDataModel,
       super.key});
 
   @override
@@ -18,7 +18,7 @@ class PopUpRenderer extends ElementRenderer {
 
 class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     PopupLayout popupModel = widget.elementModel as PopupLayout;
     if (popupModel.children == null) {
       return Container();
@@ -31,18 +31,20 @@ class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
                 child: Row(children: [
           Expanded(
               child: RendererFactory.getWidget(e.subType, e,
-                  context: context,
-                  onAction: widget.onAction,
-                  onPollFinished: widget.onPollFinished))
+                      context: context,
+                      onAction: widget.onAction,
+                      onPollFinished: widget.onPollFinished) ??
+                  Container())
         ])));
       }).toList()),
       actions: popupModel.actions?.map<Widget>((e) {
         return RendererFactory.getWidget(e.subType, e, context: context,
-            onAction: (type) {
-          if (type == 'close') {
-            Navigator.pop(context);
-          }
-        }, onPollFinished: widget.onPollFinished);
+                onAction: (type) {
+              if (type == 'close') {
+                Navigator.pop(context);
+              }
+            }, onPollFinished: widget.onPollFinished) ??
+            Container();
       }).toList(),
     );
   }

@@ -64,11 +64,10 @@ class _LoginPageState extends State<LoginPage> {
 
     return MultiProvider(
         providers: [ChangeNotifierProvider<DataModel>.value(value: d)],
-        builder: (context, child) => RendererFactory.getWidget(
-            model.subType, model,
-            context: context,
-            onAction:
-                (_) {}) //ElementRenderer(model.subType, model, getCmp: (_) {}),
+        builder: (context, child) =>
+            RendererFactory.getWidget(model.subType, model,
+                context: context, onAction: (_) {}) ??
+            Container() //ElementRenderer(model.subType, model, getCmp: (_) {}),
         );
 
     // return ChangeNotifierProvider<DataModel>(

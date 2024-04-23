@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 
 class ListRenderer extends ElementRenderer {
   const ListRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -22,7 +22,7 @@ class ListRenderer extends ElementRenderer {
 
 class _ListRendererState extends ElementRendererState<ListRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
     List<dynamic> myData = [];
     bool? useCustomModel =
@@ -30,7 +30,7 @@ class _ListRendererState extends ElementRendererState<ListRenderer> {
 
     // Use custom model if marked so
     if (useCustomModel ?? false) {
-      myData = customModel?.data ?? [];
+      myData = widget.customDataModel?.data ?? [];
     } else if (dataModel.data["status"] == 1) {
       myData = (dataModel.data["data"] as List<dynamic>);
       if (myData.isEmpty) {

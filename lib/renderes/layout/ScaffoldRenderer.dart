@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class ScaffoldRenderer extends ElementRenderer {
   const ScaffoldRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -18,7 +18,7 @@ class ScaffoldRenderer extends ElementRenderer {
 
 class _ScaffoldRendererState extends ElementRendererState<ScaffoldRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     ScaffoldLayout model = (widget.elementModel as ScaffoldLayout);
     return Scaffold(
       appBar: AppBar(

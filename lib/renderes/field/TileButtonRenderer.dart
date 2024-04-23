@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 
 class TileButtonRenderer extends ElementRenderer {
   const TileButtonRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -20,7 +20,7 @@ class TileButtonRenderer extends ElementRenderer {
 class _TileButtonRendererState
     extends ElementRendererState<TileButtonRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     TileButtonField fieldModel = widget.elementModel as TileButtonField;
     return TextButton.icon(

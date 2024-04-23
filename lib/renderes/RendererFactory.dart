@@ -25,7 +25,7 @@ import 'package:provider/provider.dart';
 import '../viewModels/base/dataModel.dart';
 
 class RendererFactory {
-  static dynamic getWidget(String type, BaseModel elementModel,
+  static Widget? getWidget(String type, BaseModel elementModel,
       {BuildContext? context,
       Function(String)? onAction,
       Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
@@ -38,44 +38,84 @@ class RendererFactory {
         return null;
       }
     }
+
+    if (elementModel.consumeCustomDataModel ?? false) {
+      Widget w = Consumer<CustomDataModel?>(
+          builder: (context, currentCustomModel, child) {
+        if (elementModel.condition != null &&
+            elementModel.condition!["type"] == "customDataModel") {
+          DataModel componentData =
+              Provider.of<DataModel>(context, listen: false);
+
+          if (currentCustomModel != null) {
+            if (elementModel.condition!["op"] == "contains") {
+              if (!currentCustomModel.contains(
+                  elementModel.condition!["idField"],
+                  componentData.data[elementModel.condition!["idField"]])) {
+                return Container();
+              }
+            } else if (elementModel.condition!["op"] == "!contains") {
+              if (currentCustomModel.contains(
+                  elementModel.condition!["idField"],
+                  componentData.data[elementModel.condition!["idField"]])) {
+                return Container();
+              }
+            }
+          }
+        }
+        return _getWidget(currentCustomModel, type, elementModel,
+            context: context,
+            onAction: onAction,
+            onFormSubmit: onFormSubmit,
+            onPollFinished: onPollFinished);
+      });
+
+      if (w is Container) {
+        return null;
+      }
+
+      return w;
+    }
+    return _getWidget(null, type, elementModel,
+        context: context,
+        onAction: onAction,
+        onFormSubmit: onFormSubmit,
+        onPollFinished: onPollFinished);
+  }
+
+  static Widget _getWidget(
+      CustomDataModel? customDataModel, String type, BaseModel elementModel,
+      {BuildContext? context,
+      Function(String)? onAction,
+      Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
+      Function? onPollFinished}) {
     switch (type) {
       case 'scaffold':
-        return ScaffoldRenderer('scaffold', elementModel, getCmp: (_) {});
+        return ScaffoldRenderer(
+          'scaffold',
+          elementModel,
+          customDataModel: customDataModel,
+        );
       case 'column':
-        return ColumnRenderer(
-          'column',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return ColumnRenderer('column', elementModel,
+            customDataModel: customDataModel);
       case 'row':
-        return RowRenderer(
-          'row',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return RowRenderer('row', elementModel,
+            customDataModel: customDataModel);
       case 'list':
-        return ListRenderer(
-          'list',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return ListRenderer('list', elementModel,
+            customDataModel: customDataModel);
       case 'grid':
-        return GridRenderer(
-          'grid',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return GridRenderer('grid', elementModel,
+            customDataModel: customDataModel);
       case 'stack':
-        return StackRenderer(
-          'stack',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return StackRenderer('stack', elementModel,
+            customDataModel: customDataModel);
       case 'popup':
         return PopUpRenderer(
           'popup',
           elementModel,
-          getCmp: (_) {},
+          customDataModel: customDataModel,
           /* onAction: () {
             Navigator.pop(context!);
           }, */
@@ -88,51 +128,37 @@ class RendererFactory {
           },
         );
       case 'form':
-        return FormRenderer(type, elementModel, getCmp: (_) {});
+        return FormRenderer(type, elementModel,
+            customDataModel: customDataModel);
       case 'dropDown':
         return DropDownRenderer(type, elementModel,
-            getCmp: (_) {}, onAction: onAction);
+            onAction: onAction, customDataModel: customDataModel);
       case 'text':
-        return TextRenderer(type, elementModel, getCmp: (_) {});
+        return TextRenderer(type, elementModel,
+            customDataModel: customDataModel);
       case 'label':
-        return LabelRenderer(
-          'label',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return LabelRenderer('label', elementModel,
+            customDataModel: customDataModel);
       case 'iconButton':
-        return IconButtonRenderer(
-          'iconButton',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return IconButtonRenderer('iconButton', elementModel,
+            customDataModel: customDataModel);
       case 'tileButton':
-        return TileButtonRenderer(
-          'tileButton',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return TileButtonRenderer('tileButton', elementModel,
+            customDataModel: customDataModel);
       case 'textButton':
         return TextButtonRenderer(
           'textButton',
           elementModel,
-          getCmp: (_) {},
           onAction: (type) => onAction != null ? onAction(type) : null,
+          customDataModel: customDataModel,
         );
       case 'submit':
-        return SubmitButtonRenderer(
-          'textButton',
-          elementModel,
-          onFormSubmit!,
-          getCmp: (_) {},
-          onAction: (type) => onAction != null ? onAction(type) : null,
-        );
+        return SubmitButtonRenderer('textButton', elementModel, onFormSubmit!,
+            onAction: (type) => onAction != null ? onAction(type) : null,
+            customDataModel: customDataModel);
       case 'agoraCallPage':
-        return AgoraCallPage(
-          'agoraCallPage',
-          elementModel,
-          getCmp: (_) {},
-        );
+        return AgoraCallPage('agoraCallPage', elementModel,
+            customDataModel: customDataModel);
 
       default:
         return const Center(child: Text("Undefined widget type"));

@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 
 class IconButtonRenderer extends ElementRenderer {
   const IconButtonRenderer(super.type, super.elementModel,
-      {required super.getCmp,
-      super.initAction,
+      {super.initAction,
       super.onPollFinished,
+      super.customDataModel,
       super.key});
 
   @override
@@ -19,7 +19,7 @@ class IconButtonRenderer extends ElementRenderer {
 class _IconButtonRendererState
     extends ElementRendererState<IconButtonRenderer> {
   @override
-  Widget getWidget(CustomDataModel? customModel) {
+  Widget getWidget() {
     if ((widget.elementModel.consumeCustomDataModel ?? false) &&
         widget.elementModel.condition != null &&
         widget.elementModel.condition!["type"] == "customDataModel") {}

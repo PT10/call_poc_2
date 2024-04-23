@@ -35,11 +35,13 @@ class PopupAction extends ActionBase {
       builder: (context) {
         return ChangeNotifierProvider<DataModel>(
             create: (_) => DataModel(myData),
-            builder: (ctx, child) => RendererFactory.getWidget(
+            builder: (ctx, child) =>
+                RendererFactory.getWidget(
                   model.subType,
                   model,
                   context: ctx,
-                ));
+                ) ??
+                Container());
       },
     );
   }
