@@ -37,8 +37,8 @@ var conciergeHomeScreen = {
               "type": "navigate",
               "data": [
                 "patient_id",
-                "latitude",
-                "longitude",
+                {"latitude": "19.10179212"},
+                {"longitude": "72.83892889"},
                 "specialisation_id"
               ],
               "pageId": "searchContainer"
@@ -59,24 +59,40 @@ var searchContainer = {
       "type": "layout",
       "subType": "column",
       "children": [
-        {"type": "field", "subType": "label", "label": "Selected doctors"},
+        {
+          "type": "field",
+          "subType": "label",
+          "label": "Selected doctors",
+          "giveEqualFlex": false
+        },
         {
           "type": "layout",
           "subType": "list",
           "horizontal": true,
-          "useCustomDataModel": true,
+          "consumeCustomDataModel": true,
           "itemRenderer": {"pageId": "selectedDoctorRenderer"},
-          "emptyText": "No doctors added to the group",
-          "flex": 1
+          "emptyText": "No doctors added to the group"
         }
       ],
       "flex": 1
     },
     {
       "type": "layout",
-      "subType": "page",
-      "pageId": "doctorSearchPage",
-      "flex": 5
+      "subType": "column",
+      "flex": 5,
+      "children": [
+        {
+          "type": "field",
+          "subType": "label",
+          "label": "Available doctors",
+          "giveEqualFlex": false
+        },
+        {
+          "type": "layout",
+          "subType": "page",
+          "pageId": "doctorSearchPage",
+        }
+      ]
     }
   ]
 };
@@ -156,7 +172,28 @@ var conciergeDoctorListItem = {
       "type": "field",
       "subType": "iconButton",
       "iconUrl": "video_icon",
+      "buttonText": "Remove from Group",
+      "consumeCustomDataModel": true,
+      "condition": {
+        "type": "customDataModel",
+        "op": "contains",
+        "idField": "_id"
+      },
+      "action": [
+        {"type": "customProviderUpdate", "idField": "_id"}
+      ]
+    },
+    {
+      "type": "field",
+      "subType": "iconButton",
+      "iconUrl": "video_icon",
       "buttonText": "Add to Group",
+      "consumeCustomDataModel": true,
+      "condition": {
+        "type": "customDataModel",
+        "op": "!contains",
+        "idField": "_id"
+      },
       "action": [
         {"type": "customProviderUpdate", "idField": "_id"}
       ]

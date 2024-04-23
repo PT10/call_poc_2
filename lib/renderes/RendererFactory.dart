@@ -17,8 +17,12 @@ import 'package:call_poc_2/renderes/layout/StackRenderer.dart';
 import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../viewModels/base/dataModel.dart';
 
 class RendererFactory {
   static dynamic getWidget(String type, BaseModel elementModel,
@@ -26,7 +30,8 @@ class RendererFactory {
       Function(String)? onAction,
       Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
       Function? onPollFinished}) {
-    if (elementModel.condition != null) {
+    if (elementModel.condition != null &&
+        elementModel.condition!["type"] != "customDataModel") {
       var variableName = elementModel.condition!["var"];
       if (!globalVariables.containsKey(variableName) ||
           globalVariables[variableName] != elementModel.condition!["val"]) {

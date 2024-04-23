@@ -1,4 +1,5 @@
 import 'package:call_poc_2/viewModels/action/actionBase.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/base/initActionModel.dart';
@@ -22,7 +23,7 @@ class SubmitButtonRenderer extends ElementRenderer {
 class _SubmitButtonRendererState
     extends ElementRendererState<SubmitButtonRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     SubmitButtonField fieldModel = widget.elementModel as SubmitButtonField;
     return OutlinedButton(

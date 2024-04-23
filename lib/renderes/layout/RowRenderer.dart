@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
 import 'package:flutter/material.dart';
 
@@ -16,23 +17,26 @@ class RowRenderer extends ElementRenderer {
 
 class _RowRendererState extends ElementRendererState<RowRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     RowLayout columnLayout = widget.elementModel as RowLayout;
     if (columnLayout.children == null) {
       return Container();
     }
-    return Card(
+    return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.purple)),
         child: Row(
             children: columnLayout.children!.map((e) {
-      return Expanded(
-          flex: e.flex ?? 1,
-          child: Column(children: [
+          Widget w = Column(children: [
             Expanded(
                 child: RendererFactory.getWidget(e.subType, e,
                     context: context,
                     onAction: widget.onAction,
                     onPollFinished: widget.onPollFinished))
-          ]));
-    }).toList()));
+          ]);
+          if (e.giveEqualFlex ?? true) {
+            return Expanded(flex: e.flex ?? 1, child: w);
+          }
+          return w;
+        }).toList()));
   }
 }

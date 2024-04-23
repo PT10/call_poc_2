@@ -1,3 +1,4 @@
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/field/labelField.dart';
@@ -18,14 +19,22 @@ class LabelRenderer extends ElementRenderer {
 
 class _LabelRendererState extends ElementRendererState<LabelRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     LabelField fieldModel = widget.elementModel as LabelField;
     return Wrap(
       children: skipNulls([
-        fieldModel.label != null ? Text(fieldModel.label!) : null,
+        fieldModel.label != null
+            ? Text(
+                fieldModel.label!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
+            : null,
         fieldModel.valueField != null
-            ? Text(model.data[fieldModel.valueField]?.toString() ?? '')
+            ? Text(
+                model.data[fieldModel.valueField]?.toString() ?? '',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
             : null
       ]),
     );

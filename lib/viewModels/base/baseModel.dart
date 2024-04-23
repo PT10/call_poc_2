@@ -10,20 +10,24 @@ abstract class BaseModel {
   final InitActionModel? initAction;
   Map<String, dynamic>? condition;
   int? flex;
+  bool? giveEqualFlex;
+  bool? consumeCustomDataModel;
   //Map<String, dynamic> data = {};
 
-  BaseModel(
-    this.type,
-    this.subType, {
-    this.initAction,
-    this.condition,
-  });
+  BaseModel(this.type, this.subType,
+      {this.initAction, this.condition, this.consumeCustomDataModel = false});
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
     if (json["type"] == "layout") {
-      return LayoutBase.fromJson(json)..flex = json["flex"];
+      return LayoutBase.fromJson(json)
+        ..flex = json["flex"]
+        ..giveEqualFlex = json["giveEqualFlex"]
+        ..consumeCustomDataModel = json["consumeCustomDataModel"];
     } else if (json["type"] == "field") {
-      return FieldBase.fromJson(json)..flex = json["flex"];
+      return FieldBase.fromJson(json)
+        ..flex = json["flex"]
+        ..giveEqualFlex = json["giveEqualFlex"]
+        ..consumeCustomDataModel = json["consumeCustomDataModel"];
     }
     return LayoutBase.fromJson(json);
   }

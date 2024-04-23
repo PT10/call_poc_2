@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/layout/columnLayout.dart';
 import 'package:call_poc_2/viewModels/layout/scaffoldLayout.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class ScaffoldRenderer extends ElementRenderer {
 
 class _ScaffoldRendererState extends ElementRendererState<ScaffoldRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     ScaffoldLayout model = (widget.elementModel as ScaffoldLayout);
     return Scaffold(
       appBar: AppBar(

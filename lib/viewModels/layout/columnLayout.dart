@@ -17,7 +17,7 @@ class ColumnLayout extends LayoutBase {
       super.initAction,
       super.condition,
       super.customDataModel,
-      super.useCustomDataModel});
+      super.consumeCustomDataModel});
 
   factory ColumnLayout.fromJson(Map<String, dynamic> json) {
     return ColumnLayout(
@@ -34,6 +34,7 @@ class ColumnLayout extends LayoutBase {
                 json["initAction"] as List<Map<String, dynamic>>)
             : null,
         condition: json["condition"],
-        customDataModel: json["customDataModel"]);
+        customDataModel: json["customDataModel"],
+        consumeCustomDataModel: json["consumeCustomDataModel"] ?? false);
   }
 }

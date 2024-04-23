@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/viewModels/layout/columnLayout.dart';
 import 'package:call_poc_2/viewModels/layout/formLayout.dart';
@@ -23,7 +24,7 @@ class FormRenderer extends ElementRenderer {
 class _FormRendererState extends ElementRendererState<FormRenderer> {
   final _formKey = GlobalKey<FormBuilderState>();
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     return FormBuilder(
         key: _formKey,
         child: Column(children: [

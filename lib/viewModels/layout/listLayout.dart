@@ -24,7 +24,7 @@ class ListLayout extends LayoutBase {
       super.title,
       super.initAction,
       super.condition,
-      super.useCustomDataModel,
+      super.consumeCustomDataModel,
       this.horizontal = false,
       this.emptyText = "No Items to show"});
 
@@ -45,7 +45,7 @@ class ListLayout extends LayoutBase {
                 json["initAction"] as List<Map<String, dynamic>>)
             : null,
         condition: json["condition"],
-        useCustomDataModel: json["useCustomDataModel"] ?? false,
+        consumeCustomDataModel: json["consumeCustomDataModel"] ?? false,
         horizontal: json["horizontal"] ?? false,
         emptyText: json["emptyText"] ?? "No items to show");
   }

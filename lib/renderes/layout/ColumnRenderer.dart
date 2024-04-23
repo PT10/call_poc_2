@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/layout/columnLayout.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,10 @@ class ColumnRenderer extends ElementRenderer {
 
 class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
   @override
-  Widget getWidget() {
-    return Column(
-        children: (widget.elementModel as ColumnLayout).children!.map((e) {
+  Widget getWidget(CustomDataModel? customModel) {
+    return Card(
+        child: Column(
+            children: (widget.elementModel as ColumnLayout).children!.map((e) {
       Widget? w = RendererFactory.getWidget(e.subType, e, context: context,
           onAction: (type) {
         if (type == "refresh") {
@@ -32,9 +34,13 @@ class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
       if (w == null) {
         return Container();
       }
-      return Expanded(
-          flex: e.flex ?? 1,
-          child: Card(child: Row(children: [Expanded(child: w)])));
-    }).toList());
+      w = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Expanded(child: w)]);
+      if (e.giveEqualFlex ?? true) {
+        return Expanded(flex: e.flex ?? 1, child: w);
+      }
+      return w;
+    }).toList()));
   }
 }

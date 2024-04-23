@@ -11,13 +11,12 @@ import 'package:call_poc_2/viewModels/utils.dart';
 
 abstract class LayoutBase extends BaseModel {
   String? title, customDataModel;
-  bool useCustomDataModel;
   LayoutBase(super.type, super.subType,
       {this.title,
       super.initAction,
       super.condition,
       this.customDataModel,
-      this.useCustomDataModel = false});
+      super.consumeCustomDataModel});
 
   factory LayoutBase.fromJson(Map<String, dynamic> json) {
     switch (json["subType"]) {

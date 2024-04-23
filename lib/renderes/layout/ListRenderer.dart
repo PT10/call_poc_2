@@ -22,77 +22,74 @@ class ListRenderer extends ElementRenderer {
 
 class _ListRendererState extends ElementRendererState<ListRenderer> {
   @override
-  Widget getWidget() {
-    return Consumer<CustomDataModel>(builder: (context, customModel, child) {
-      DataModel dataModel = Provider.of<DataModel>(context, listen: false);
-      List<dynamic> myData = [];
-      bool useCustomModel =
-          (widget.elementModel as LayoutBase).useCustomDataModel;
+  Widget getWidget(CustomDataModel? customModel) {
+    DataModel dataModel = Provider.of<DataModel>(context, listen: false);
+    List<dynamic> myData = [];
+    bool? useCustomModel =
+        (widget.elementModel as LayoutBase).consumeCustomDataModel;
 
-      // Use custom model if marked so
-      if (useCustomModel) {
-        myData = customModel.data ?? [];
-      } else if (dataModel.data["status"] == 1) {
-        myData = (dataModel.data["data"] as List<dynamic>);
-        if (myData.isEmpty) {
-          return const Center(
-            child: Text("No results found"),
-          );
-        }
-      } else {
-        return Center(
-          child: Text(dataModel.data["message"]),
+    // Use custom model if marked so
+    if (useCustomModel ?? false) {
+      myData = customModel?.data ?? [];
+    } else if (dataModel.data["status"] == 1) {
+      myData = (dataModel.data["data"] as List<dynamic>);
+      if (myData.isEmpty) {
+        return const Center(
+          child: Text("No results found"),
         );
       }
-
-      ListLayout listModel = widget.elementModel as ListLayout;
-      if (myData.isEmpty && (listModel.children?.isEmpty ?? true)) {
-        return Center(
-            child: Text((widget.elementModel as ListLayout).emptyText ?? ""));
-      }
-      return ListView.builder(
-        itemCount:
-            myData.isNotEmpty ? myData.length : listModel.children?.length ?? 0,
-        shrinkWrap: true,
-        scrollDirection: (widget.elementModel as ListLayout).horizontal
-            ? Axis.horizontal
-            : Axis.vertical,
-        itemBuilder: (context, index) {
-          if (listModel.itemRendererModel != null) {
-            DataModel newModel = DataModel({});
-            if (useCustomModel) {
-              newModel.setData(myData[index]);
-            } else if (dataModel.data.containsKey("data")) {
-              newModel.setData(dataModel.data);
-              newModel.setData(dataModel.data["data"][index]);
-            }
-
-            return ChangeNotifierProvider<DataModel>.value(
-                value: newModel,
-                builder: (ctx, w) {
-                  BaseModel e = listModel.itemRendererModel!.createItem();
-
-                  return SizedBox(
-                      height: 100,
-                      child: Card(
-                          child: RendererFactory.getWidget(e.subType, e,
-                              context: context,
-                              onAction: widget.onAction,
-                              onPollFinished: widget.onPollFinished)));
-                });
-          } else if (listModel.children != null) {
-            return RendererFactory.getWidget(
-                listModel.children![index].subType, listModel.children![index],
-                context: context,
-                onAction: widget.onAction,
-                onPollFinished: widget.onPollFinished);
-          } else {
-            return const Center(
-              child: Text("No item found"),
-            );
-          }
-        },
+    } else {
+      return Center(
+        child: Text(dataModel.data["message"]),
       );
-    });
+    }
+
+    ListLayout listModel = widget.elementModel as ListLayout;
+    if (myData.isEmpty && (listModel.children?.isEmpty ?? true)) {
+      return Text((widget.elementModel as ListLayout).emptyText);
+    }
+    return ListView.builder(
+      itemCount:
+          myData.isNotEmpty ? myData.length : listModel.children?.length ?? 0,
+      shrinkWrap: true,
+      scrollDirection: (widget.elementModel as ListLayout).horizontal
+          ? Axis.horizontal
+          : Axis.vertical,
+      itemBuilder: (context, index) {
+        if (listModel.itemRendererModel != null) {
+          DataModel newModel = DataModel({});
+          if (useCustomModel ?? false) {
+            newModel.setData(myData[index]);
+          } else if (dataModel.data.containsKey("data")) {
+            newModel.setData(dataModel.data);
+            newModel.setData(dataModel.data["data"][index]);
+          }
+
+          return ChangeNotifierProvider<DataModel>.value(
+              value: newModel,
+              builder: (ctx, w) {
+                BaseModel e = listModel.itemRendererModel!.createItem();
+
+                return SizedBox(
+                    height: 100,
+                    child: Card(
+                        child: RendererFactory.getWidget(e.subType, e,
+                            context: context,
+                            onAction: widget.onAction,
+                            onPollFinished: widget.onPollFinished)));
+              });
+        } else if (listModel.children != null) {
+          return RendererFactory.getWidget(
+              listModel.children![index].subType, listModel.children![index],
+              context: context,
+              onAction: widget.onAction,
+              onPollFinished: widget.onPollFinished);
+        } else {
+          return const Center(
+            child: Text("No item found"),
+          );
+        }
+      },
+    );
   }
 }

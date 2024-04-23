@@ -82,9 +82,9 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
         return ChangeNotifierProvider<CustomDataModel>(
             create: (_) => CustomDataModel(
                 (widget.elementModel as LayoutBase).customDataModel),
-            builder: (ctx, child) => getWidget());
+            builder: (ctx, child) => _getWidget());
       }
-      return getWidget();
+      return _getWidget();
     } else if (errorMsg != null) {
       return const Center(
         child: Text("error"),
@@ -96,7 +96,41 @@ class ElementRendererState<T extends ElementRenderer> extends State<T> {
     }
   }
 
-  Widget getWidget() {
+  Widget _getWidget() {
+    if (widget.elementModel.consumeCustomDataModel ?? false) {
+      return Consumer<CustomDataModel?>(
+          builder: (context, currentCustomModel, child) {
+        if (widget.elementModel.condition != null &&
+            widget.elementModel.condition!["type"] == "customDataModel") {
+          DataModel componentData =
+              Provider.of<DataModel>(context, listen: false);
+
+          if (currentCustomModel != null) {
+            if (widget.elementModel.condition!["op"] == "contains") {
+              if (!currentCustomModel.contains(
+                  widget.elementModel.condition!["idField"],
+                  componentData
+                      .data[widget.elementModel.condition!["idField"]])) {
+                return Container();
+              }
+            } else if (widget.elementModel.condition!["op"] == "!contains") {
+              if (currentCustomModel.contains(
+                  widget.elementModel.condition!["idField"],
+                  componentData
+                      .data[widget.elementModel.condition!["idField"]])) {
+                return Container();
+              }
+            }
+          }
+        }
+        return getWidget(currentCustomModel);
+      });
+    }
+
+    return getWidget(null);
+  }
+
+  Widget getWidget(CustomDataModel? customModel) {
     return Container(
       child: Text("Base class"),
     );

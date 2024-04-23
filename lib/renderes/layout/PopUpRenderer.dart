@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class PopUpRenderer extends ElementRenderer {
 
 class _PopUpRendererState extends ElementRendererState<PopUpRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     PopupLayout popupModel = widget.elementModel as PopupLayout;
     if (popupModel.children == null) {
       return Container();

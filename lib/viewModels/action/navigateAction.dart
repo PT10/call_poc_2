@@ -29,6 +29,8 @@ class NavigateAction extends ActionBase {
       if (element is Map<String, dynamic>) {
         if (element.containsKey("newKey") && element.containsKey("oldKey")) {
           myData![element["newKey"]] = componentData.data[element["oldKey"]];
+        } else {
+          myData.addAll(element);
         }
       } else {
         myData![element] = componentData.data[element];

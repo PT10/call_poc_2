@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/layout/stackLayout.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class StackRenderer extends ElementRenderer {
 
 class _StackRendererState extends ElementRendererState<StackRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     StackLayout stackLayout = widget.elementModel as StackLayout;
     if (stackLayout.children == null) {
       return Container();

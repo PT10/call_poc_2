@@ -58,8 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     BaseModel model = BaseModel.fromJson(conciergeScaffold);
     DataModel d = DataModel({
       //"patient_id": "65c9f89d031272e866295a9a",
-      "latitude": "18.577954759165255",
-      "longitude": "73.76560389261459"
+      //"latitude": "18.577954759165255",
+      //"longitude": "73.76560389261459"
     });
 
     return MultiProvider(

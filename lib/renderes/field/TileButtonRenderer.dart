@@ -1,3 +1,4 @@
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/field/iconButtonField.dart';
@@ -19,7 +20,7 @@ class TileButtonRenderer extends ElementRenderer {
 class _TileButtonRendererState
     extends ElementRendererState<TileButtonRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     DataModel model = Provider.of<DataModel>(context, listen: false);
     TileButtonField fieldModel = widget.elementModel as TileButtonField;
     return TextButton.icon(

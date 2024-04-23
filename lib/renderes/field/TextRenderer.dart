@@ -1,3 +1,4 @@
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/field/textButtonField.dart';
@@ -19,7 +20,7 @@ class TextRenderer extends ElementRenderer {
 
 class _TextRendererState extends ElementRendererState<TextRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     TextFieldCustom fieldModel = widget.elementModel as TextFieldCustom;
     return FormBuilderTextField(
       key: GlobalKey(),

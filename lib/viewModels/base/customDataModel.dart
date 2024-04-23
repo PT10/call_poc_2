@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomDataModel extends ChangeNotifier {
   List<Map<String, dynamic>>? data;
@@ -15,5 +16,14 @@ class CustomDataModel extends ChangeNotifier {
   void removeData(String idField, String idFieldValue) {
     data?.removeWhere((element) => element[idField] == idFieldValue);
     notifyListeners();
+  }
+
+  bool contains(String idField, String idFieldValue) {
+    if (data == null) {
+      return false;
+    }
+    return data
+            ?.firstWhereOrNull((element) => element[idField] == idFieldValue) !=
+        null;
   }
 }

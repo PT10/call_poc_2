@@ -1,3 +1,4 @@
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/field/iconButtonField.dart';
@@ -18,9 +19,20 @@ class IconButtonRenderer extends ElementRenderer {
 class _IconButtonRendererState
     extends ElementRendererState<IconButtonRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
+    if ((widget.elementModel.consumeCustomDataModel ?? false) &&
+        widget.elementModel.condition != null &&
+        widget.elementModel.condition!["type"] == "customDataModel") {}
     DataModel model = Provider.of<DataModel>(context, listen: false);
     IconButtonField fieldModel = widget.elementModel as IconButtonField;
+    String labelText = fieldModel.buttonText ??
+        (model.data.containsKey(fieldModel.buttonTextFieldInData)
+            ? model.data[fieldModel.buttonTextFieldInData]
+            : '');
+    /* if (labelText == "Add to Group" &&
+          customModel.contains("_id", "65cc70e7031272e86629f521")) {
+        labelText = "Remove from Group";
+      } */
     return TextButton.icon(
       onPressed: () {
         /* if (widget.onAction != null) {
@@ -37,10 +49,7 @@ class _IconButtonRendererState
         }
       },
       icon: const Icon(Icons.plus_one),
-      label: Text(fieldModel.buttonText ??
-          (model.data.containsKey(fieldModel.buttonTextFieldInData)
-              ? model.data[fieldModel.buttonTextFieldInData]
-              : '')),
+      label: Text(labelText),
     );
   }
 }

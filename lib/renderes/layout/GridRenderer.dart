@@ -1,5 +1,6 @@
 import 'package:call_poc_2/renderes/RendererFactory.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
+import 'package:call_poc_2/viewModels/base/customDataModel.dart';
 import 'package:call_poc_2/viewModels/base/dataModel.dart';
 import 'package:call_poc_2/renderes/elementRenderer.dart';
 import 'package:call_poc_2/viewModels/layout/gridLayout.dart';
@@ -19,7 +20,7 @@ class GridRenderer extends ElementRenderer {
 
 class _GridRendererState extends ElementRendererState<GridRenderer> {
   @override
-  Widget getWidget() {
+  Widget getWidget(CustomDataModel? customModel) {
     DataModel dataModel = Provider.of<DataModel>(context, listen: false);
     GridLayout grid = widget.elementModel as GridLayout;
     return Card(
