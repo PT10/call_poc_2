@@ -7,6 +7,7 @@ import 'package:call_poc_2/viewModels/layout/popupLayout.dart';
 import 'package:call_poc_2/viewModels/layout/rowLayout.dart';
 import 'package:call_poc_2/viewModels/layout/scaffoldLayout.dart';
 import 'package:call_poc_2/viewModels/layout/stackLayout.dart';
+import 'package:call_poc_2/viewModels/layout/tabLayout.dart';
 import 'package:call_poc_2/viewModels/utils.dart';
 
 abstract class LayoutBase extends BaseModel {
@@ -24,6 +25,8 @@ abstract class LayoutBase extends BaseModel {
         return ScaffoldLayout.fromJson(json);
       case "column":
         return ColumnLayout.fromJson(json);
+      case "tab":
+        return TabLayout.fromJson(json);
       case "row":
         return RowLayout.fromJson(json);
       case "grid":

@@ -42,10 +42,15 @@ Map<String, dynamic> getPage(String id) {
       return selectedDoctorRenderer;
     case 'doctorSearchPage':
       return doctorSearchPage;
+    case 'doctorSearchPage2':
+      return doctorSearchPage2;
     case 'conciergeDoctorListItem':
       return conciergeDoctorListItem;
     case 'conciergeScaffold':
       return conciergeScaffold;
+    case 'searchTabs':
+      return searchTabs;
+
     default:
       return {};
   }

@@ -14,6 +14,7 @@ import 'package:call_poc_2/renderes/layout/PopUpRenderer.dart';
 import 'package:call_poc_2/renderes/layout/RowRenderer.dart';
 import 'package:call_poc_2/renderes/layout/ScaffoldRenderer.dart';
 import 'package:call_poc_2/renderes/layout/StackRenderer.dart';
+import 'package:call_poc_2/renderes/layout/TabRenderer.dart';
 import 'package:call_poc_2/settings.dart';
 import 'package:call_poc_2/viewModels/action/actionBase.dart';
 import 'package:call_poc_2/viewModels/base/baseModel.dart';
@@ -30,6 +31,7 @@ class RendererFactory {
       Function(String)? onAction,
       Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
       Function? onPollFinished}) {
+    // Check if condition meets
     if (elementModel.condition != null &&
         elementModel.condition!["type"] != "customDataModel") {
       var variableName = elementModel.condition!["var"];
@@ -39,9 +41,12 @@ class RendererFactory {
       }
     }
 
+    // If the component consumes custom data model use the consumer
+    // A provider has to be present somewhere in the parent hirerchey
     if (elementModel.consumeCustomDataModel ?? false) {
       return Consumer<CustomDataModel?>(
           builder: (context, currentCustomModel, child) {
+        // Check if condition meets
         if (elementModel.condition != null &&
             elementModel.condition!["type"] == "customDataModel") {
           DataModel componentData =
@@ -70,10 +75,11 @@ class RendererFactory {
             onPollFinished: onPollFinished);
       });
     }
-    // Check if the parent has the customDataModel
+    // Check if the parent has injected the customDataModel
     CustomDataModel? parentDataModel =
         Provider.of<CustomDataModel?>(context, listen: false);
     DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    // Check if the condition meets
     if (parentDataModel != null &&
         elementModel.condition != null &&
         elementModel.condition!["type"] == "customDataModel") {
@@ -112,6 +118,9 @@ class RendererFactory {
         );
       case 'column':
         return ColumnRenderer('column', elementModel,
+            customDataModel: customDataModel);
+      case 'tab':
+        return TabRenderer('tab', elementModel,
             customDataModel: customDataModel);
       case 'row':
         return RowRenderer('row', elementModel,

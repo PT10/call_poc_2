@@ -90,7 +90,7 @@ var searchContainer = {
         {
           "type": "layout",
           "subType": "page",
-          "pageId": "doctorSearchPage",
+          "pageId": "searchTabs",
         }
       ]
     }
@@ -106,9 +106,48 @@ var selectedDoctorRenderer = {
   ]
 };
 
+var searchTabs = {
+  "type": "layout",
+  "subType": "tab",
+  "children": [
+    {
+      "type": "layout",
+      "subType": "page",
+      "pageId": "doctorSearchPage",
+    },
+    {
+      "type": "layout",
+      "subType": "page",
+      "pageId": "doctorSearchPage2",
+    }
+  ]
+};
+
 var doctorSearchPage = {
   "type": "layout",
   "subType": "list",
+  "title": "Available nearby",
+  "itemRenderer": {"pageId": "conciergeDoctorListItem"},
+  "initAction": [
+    {
+      "api": "__SERVER__/order_controller/doctor_search",
+      "params": {
+        "specialisation_id": "__val__",
+        "latitude": "__val__",
+        "longitude": "__val__",
+        "patient_id": "__val__",
+        "gender_id": "2",
+        "location_id": "1",
+        "location_text": "Mumbai"
+      }
+    }
+  ]
+};
+
+var doctorSearchPage2 = {
+  "type": "layout",
+  "subType": "list",
+  "title": "Available farther",
   "itemRenderer": {"pageId": "conciergeDoctorListItem"},
   "initAction": [
     {
@@ -174,7 +213,7 @@ var conciergeDoctorListItem = {
       "subType": "iconButton",
       "iconUrl": "video_icon",
       "buttonText": "Remove from Group",
-      //"consumeCustomDataModel": true,
+      //"consumeCustomDataModel": true, // added on parent
       "condition": {
         "type": "customDataModel",
         "op": "contains",
@@ -189,7 +228,7 @@ var conciergeDoctorListItem = {
       "subType": "iconButton",
       "iconUrl": "video_icon",
       "buttonText": "Add to Group",
-      //"consumeCustomDataModel": true,
+      //"consumeCustomDataModel": true, //added on parent
       "condition": {
         "type": "customDataModel",
         "op": "!contains",
