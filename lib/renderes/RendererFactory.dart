@@ -26,7 +26,7 @@ import '../viewModels/base/dataModel.dart';
 
 class RendererFactory {
   static Widget? getWidget(String type, BaseModel elementModel,
-      {BuildContext? context,
+      {required BuildContext context,
       Function(String)? onAction,
       Function(InitActionModel, List<ActionBase>?)? onFormSubmit,
       Function? onPollFinished}) {
@@ -40,7 +40,7 @@ class RendererFactory {
     }
 
     if (elementModel.consumeCustomDataModel ?? false) {
-      Widget w = Consumer<CustomDataModel?>(
+      return Consumer<CustomDataModel?>(
           builder: (context, currentCustomModel, child) {
         if (elementModel.condition != null &&
             elementModel.condition!["type"] == "customDataModel") {
@@ -69,13 +69,27 @@ class RendererFactory {
             onFormSubmit: onFormSubmit,
             onPollFinished: onPollFinished);
       });
-
-      if (w is Container) {
-        return null;
-      }
-
-      return w;
     }
+    // Check if the parent has the customDataModel
+    CustomDataModel? parentDataModel =
+        Provider.of<CustomDataModel?>(context, listen: false);
+    DataModel componentData = Provider.of<DataModel>(context, listen: false);
+    if (parentDataModel != null &&
+        elementModel.condition != null &&
+        elementModel.condition!["type"] == "customDataModel") {
+      if (elementModel.condition!["op"] == "contains") {
+        if (!parentDataModel.contains(elementModel.condition!["idField"],
+            componentData.data[elementModel.condition!["idField"]])) {
+          return null;
+        }
+      } else if (elementModel.condition!["op"] == "!contains") {
+        if (parentDataModel.contains(elementModel.condition!["idField"],
+            componentData.data[elementModel.condition!["idField"]])) {
+          return null;
+        }
+      }
+    }
+
     return _getWidget(null, type, elementModel,
         context: context,
         onAction: onAction,

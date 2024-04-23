@@ -40,7 +40,7 @@ class _ListRendererState extends ElementRendererState<ListRenderer> {
       }
     } else {
       return Center(
-        child: Text(dataModel.data["message"]),
+        child: Text(dataModel.data["message"] ?? "Error"),
       );
     }
 

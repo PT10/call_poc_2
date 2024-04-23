@@ -20,9 +20,6 @@ class _IconButtonRendererState
     extends ElementRendererState<IconButtonRenderer> {
   @override
   Widget getWidget() {
-    if ((widget.elementModel.consumeCustomDataModel ?? false) &&
-        widget.elementModel.condition != null &&
-        widget.elementModel.condition!["type"] == "customDataModel") {}
     DataModel model = Provider.of<DataModel>(context, listen: false);
     IconButtonField fieldModel = widget.elementModel as IconButtonField;
     String labelText = fieldModel.buttonText ??

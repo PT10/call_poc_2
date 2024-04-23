@@ -30,7 +30,7 @@ class _ColumnRendererState extends ElementRendererState<ColumnRenderer> {
           widget.onAction!(type);
         }
       }, onPollFinished: widget.onPollFinished);
-      if (w == null) {
+      if (w == null || w is Container) {
         return;
       }
       w = Row(

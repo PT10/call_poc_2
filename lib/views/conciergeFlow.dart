@@ -129,6 +129,7 @@ var doctorSearchPage = {
 var conciergeDoctorListItem = {
   "type": "layout",
   "subType": "column",
+  "consumeCustomDataModel": true,
   "children": [
     {
       "type": "layout",
@@ -173,7 +174,7 @@ var conciergeDoctorListItem = {
       "subType": "iconButton",
       "iconUrl": "video_icon",
       "buttonText": "Remove from Group",
-      "consumeCustomDataModel": true,
+      //"consumeCustomDataModel": true,
       "condition": {
         "type": "customDataModel",
         "op": "contains",
@@ -188,7 +189,7 @@ var conciergeDoctorListItem = {
       "subType": "iconButton",
       "iconUrl": "video_icon",
       "buttonText": "Add to Group",
-      "consumeCustomDataModel": true,
+      //"consumeCustomDataModel": true,
       "condition": {
         "type": "customDataModel",
         "op": "!contains",
